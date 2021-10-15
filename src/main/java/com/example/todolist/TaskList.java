@@ -17,16 +17,20 @@ public class TaskList { // Класс для работы со списком з
     }
 
     public void printTaskList(boolean onlyOpen) { // Выводим на консоль список задач в зависимости от полученного на вход флага
-        System.out.println(this.name); // Выводим название списка задач
-        if(onlyOpen) { // Проверка флага
-            for (Task taskList : taskList) { // Для каждой задачи выполняем проверку
-                if (!taskList.getStatus()) // Что задача открыта
-                System.out.println(taskList); // Выводим открытую задачу
+        if (this.getTaskListSize(onlyOpen) == 0) // Проверям что в списке задач есть открытые
+            System.out.println(onlyOpen?"\nСписок открытых задач пуст":"\nСписок задач пуст"); // Сообщаем что открытых задач нет
+        else {
+            System.out.println(this.name); // Выводим название списка задач
+            if (onlyOpen) { // Проверка флага
+                for (Task taskList : taskList) { // Для каждой задачи выполняем проверку
+                    if (!taskList.getStatus()) // Что задача открыта
+                        System.out.println(taskList); // Выводим открытую задачу
+                }
+                return; // Останавливаем вывод списка открытых задач
             }
-            return; // Останавливаем вывод списка открытых задач
-        }
-        for (Task taskList : taskList) { // Для каждой задачи
-            System.out.println(taskList); // Выводим задачу
+            for (Task taskList : taskList) { // Для каждой задачи
+                System.out.println(taskList); // Выводим задачу
+            }
         }
     }
 

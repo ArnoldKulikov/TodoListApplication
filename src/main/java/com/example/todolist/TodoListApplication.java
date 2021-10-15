@@ -26,15 +26,11 @@ public class TodoListApplication {
 
 					case "print": // Команда печати списка задач
 						if(command.length == 1) { // Проверяем что команда передана без аргумента
-							if (taskList.getTaskListSize(true) == 0) // Проверям что в списке задач есть открытые
-								System.out.println("\nСписок открытых задач пуст"); // Сообщаем что открытых задач нет
-							else taskList.printTaskList(true);// Печатаем список открытых задач, передаем аргумент печати
+							taskList.printTaskList(true);// Печатаем список открытых задач, передаем аргумент печати
 							break; // Остановка команды
 						}
 						if(command[1].equals("all")) { // Проверяем что команда передана с правильным аргументом
-							if (taskList.getTaskListSize(false) == 0) // Проверям что в списке задач есть задачи
-								System.out.println("\nСписок задач пуск"); // Сообщаем что список задач пуст
-							else taskList.printTaskList(false);// Печатаем список задач, передаем аргумент печати
+							taskList.printTaskList(false);// Печатаем список задач, передаем аргумент печати
 							break; // Остановка команды
 						}
 						System.out.println(errorText); // Выводим сообщение что команда ошибочная

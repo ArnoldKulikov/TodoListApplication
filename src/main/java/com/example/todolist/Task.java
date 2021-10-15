@@ -15,8 +15,8 @@ public class Task {
         return isClosed;
     }
 
-    public void setStatus(boolean newstatus) {
-        isClosed = newstatus;
+    public void setStatus(boolean newStatus) {
+        isClosed = newStatus;
     }
 
     @Override
