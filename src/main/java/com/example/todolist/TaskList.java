@@ -20,7 +20,7 @@ public class TaskList { // Класс для работы со списком з
         System.out.println(this.name); // Выводим название списка задач
         if(onlyOpen) { // Проверка флага
             for (Task taskList : taskList) { // Для каждой задачи выполняем проверку
-                if (!taskList.isClosed) // Что задача открыта
+                if (!taskList.getStatus()) // Что задача открыта
                 System.out.println(taskList); // Выводим открытую задачу
             }
             return; // Останавливаем вывод списка открытых задач
@@ -31,7 +31,7 @@ public class TaskList { // Класс для работы со списком з
     }
 
     public void changeTaskStatus(int number) { // Переключение статуса задачи
-        this.taskList.get(number-1).isClosed = !this.taskList.get(number-1).isClosed; // Берем текущий статус и меняем на противоположный
+        this.taskList.get(number-1).setStatus(!this.taskList.get(number-1).getStatus()); // Берем текущий статус и меняем на противоположный
         System.out.println("\nТекущий статус задачи:"); // Сообщение о смене статуса
         System.out.println(taskList.get(number-1)); // Выводм измененную задачу
     }
@@ -40,28 +40,11 @@ public class TaskList { // Класс для работы со списком з
         if(onlyOpen) { // Проверка флага
             ArrayList<Task> openTaskList = new ArrayList(); // Создаем временный массив только для открытых задач
             for (Task taskList : taskList) { // Для каждй задачи выполняем проверку
-                if (!taskList.isClosed) // Что задача открыта
+                if (!taskList.getStatus()) // Что задача открыта
                 openTaskList.add(taskList); // Добавляем открытую задачу во временный список
             }
             return openTaskList.size(); // Возвращаем размер списка открытых задач
         }
         return taskList.size(); // Возвращаем размер списка всех задач
-    }
-
-    private static class Task { // Класс для описания задачи
-        private int number; // Номер задачи
-        private boolean isClosed; // Статус задачи, по умолчанию false, true - если закрыта
-        private String description; // Описание задачи
-
-        public Task(int number, boolean isClosed, String description) { // Конструктор для создания новой задачи
-            this.number = number; // Номер задачи устанавливаем на полученный
-            this.isClosed = isClosed; // Статус задачи устанавливаем на полученный
-            this.description = description; // Описание задачи устанавливаем на полученное
-        }
-
-        @Override
-        public String toString() { // Вывод задачи строкой
-            return  number + ". " + (isClosed?"[x]":"[ ]") + " " + description; // Вывод задачи строкой в нужном формате
-        }
     }
 }

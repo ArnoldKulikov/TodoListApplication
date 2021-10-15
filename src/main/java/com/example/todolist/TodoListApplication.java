@@ -3,6 +3,8 @@ package com.example.todolist;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
 import java.lang.invoke.SwitchPoint;
 import java.util.Scanner;
 
@@ -13,7 +15,7 @@ public class TodoListApplication {
 //		SpringApplication.run(TodoListApplication.class, args);
 
 		TaskList taskList = new TaskList("Список моих задач:"); // Создаем объект Список задач, для работы со списком задач
-		Scanner scan = new Scanner(System.in); // Создаем объект Сканера, для чтения ввода с консоли
+		BufferedReader scan = new BufferedReader(new InputStreamReader(System.in)); // Создаем объект ридера, для чтения ввода с консоли
 		String errorText = "\nНекорректная команда"; // Текст для ошибки ввода команды
 
 		System.out.println("Программа запущена!"); // Приветствие программы
@@ -22,20 +24,20 @@ public class TodoListApplication {
 		{
 			System.out.println("\nВведите команду:"); // Запрос ввода команды
 			try { // Пытаемся определить и обработать команду
-				String[] receivedTask = scan.nextLine().split(" ",2); // Получение команды и значимой части в массив из двух строк
-				switch(receivedTask[0]) { // Определяем что за команда
+				String[] command = scan.readLine().split(" ",2); // Получение команды и значимой части в массив из двух строк
+				switch(command[0]) { // Определяем что за команда
 					case "add": // Команда добавления задачи
-						taskList.setTaskList(receivedTask[1]); // Передаем описание задачи для добавлеия в список
+						taskList.setTaskList(command[1]); // Передаем описание задачи для добавлеия в список
 						break; // Остановка команды
 
 					case "print": // Команда печати списка задач
-						if(receivedTask.length == 1) { // Проверяем что команда передана без аргумента
+						if(command.length == 1) { // Проверяем что команда передана без аргумента
 							if (taskList.getTaskListSize(true) == 0) // Проверям что в списке задач есть открытые
 								System.out.println("\nСписок открытых задач пуст"); // Сообщаем что открытых задач нет
 							else taskList.printTaskList(true);// Печатаем список открытых задач, передаем аргумент печати
 							break; // Остановка команды
 						}
-						if(receivedTask[1].equals("all")) { // Проверяем что команда передана с правильным аргументом
+						if(command[1].equals("all")) { // Проверяем что команда передана с правильным аргументом
 							if (taskList.getTaskListSize(false) == 0) // Проверям что в списке задач есть задачи
 								System.out.println("\nСписок задач пуск"); // Сообщаем что список задач пуст
 							else taskList.printTaskList(false);// Печатаем список задач, передаем аргумент печати
@@ -45,12 +47,12 @@ public class TodoListApplication {
 						break; // Остановка команды
 
 					case "toggle": // Команда для изменения статуса задачи на противоположный
-						taskList.changeTaskStatus(Integer.parseInt(receivedTask[1])); // Меняем текущий статус задачи
+						taskList.changeTaskStatus(Integer.parseInt(command[1])); // Меняем текущий статус задачи
 						break;// Остановка команды
 
 					case "quit": // Команда выход из программы
 						System.out.println("\nПрограмма завершена"); // Сообщение о завершении программы
-						System.exit(0); // Завершение программы
+						return; // Завершение программы
 
 					default: // Команда ошибочная
 						System.out.println(errorText); // Выводим сообщение что команда ошибочная
