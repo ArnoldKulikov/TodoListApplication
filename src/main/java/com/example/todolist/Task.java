@@ -1,12 +1,12 @@
 package com.example.todolist;
 
 public class Task {
-    private int number; // Номер задачи
+    private int id; // Номер задачи
     private boolean isClosed; // Статус задачи, по умолчанию false, true - если закрыта
     private String description; // Описание задачи
 
-    public Task(int number, boolean isClosed, String description) { // Конструктор для создания новой задачи
-        this.number = number; // Номер задачи устанавливаем на полученный
+    public Task(int id, boolean isClosed, String description) { // Конструктор для создания новой задачи
+        this.id = id; // Номер задачи устанавливаем на полученный
         this.isClosed = isClosed; // Статус задачи устанавливаем на полученный
         this.description = description; // Описание задачи устанавливаем на полученное
     }
@@ -15,12 +15,25 @@ public class Task {
         return isClosed;
     }
 
+    public String getDescription() {
+        return description;
+    }
+
+    public int getId() {
+        return id;
+    }
+
     public void setStatus(boolean newStatus) {
         isClosed = newStatus;
     }
 
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+
     @Override
     public String toString() { // Вывод задачи строкой
-        return  number + ". " + (isClosed?"[x]":"[ ]") + " " + description; // Вывод задачи строкой в нужном формате
+        return  id + ". " + (isClosed?"[x]":"[ ]") + " " + description; // Вывод задачи строкой в нужном формате
     }
 }
