@@ -17,7 +17,7 @@ public class TodoListApplication {
 				String[] command = scan.readLine().split(" ",2);
 				switch(command[0]) {
 					case "add":
-						taskList.setTaskList(command[1]);
+						taskList.addTask(command[1]);
 						break;
 
 					case "print":
@@ -33,7 +33,7 @@ public class TodoListApplication {
 						break;
 
 					case "search":
-						taskList.searchTaskInTaskList(command[1]);
+						taskList.searchTaskByDescription(command[1]);
 						break;
 
 					case "toggle":

@@ -1,76 +1,73 @@
 package com.example.todolist;
 
 import java.util.ArrayList;
+import java.util.Optional;
+import java.util.stream.Stream;
 
 public class TaskList {
 
     private ArrayList<Task> taskList = new ArrayList<>();
-    private int nextTaskId = 0;
+    private int nextTaskId = 1;
     private String taskNotFound = "Задача не найдена";
 
-    public void setTaskList(String task) {
-        Task receivedTask = new Task(++this.nextTaskId, false, task);
-        this.taskList.add(receivedTask);
+    public void addTask(String task) {
+        Task receivedTask = new Task(nextTaskId++, false, task);
+
+        taskList.add(receivedTask);
     }
 
     public void printTaskList(boolean onlyOpen) {
-        if (this.getTaskListSize(onlyOpen) > 0) {
-            if (onlyOpen) {
-                for (Task taskList : taskList) {
-                    if (!taskList.getStatus())
-                        System.out.println(taskList);
-                }
-                return;
-            }
-            for (Task taskList : taskList) {
-                System.out.println(taskList);
-            }
+        Stream<Task> currentTaskList = taskList.stream();
+
+        if (onlyOpen) {
+            currentTaskList
+                    .filter(t -> t.getStatus() == !onlyOpen)
+                    .forEach(System.out::println);
+        } else {
+            currentTaskList
+                    .forEach(System.out::println);
         }
     }
 
-    public void searchTaskInTaskList(String searchText) {
-        for (Task nextTask : taskList) {
-            if (nextTask.getDescription().contains(searchText)) System.out.println(nextTask);
-        }
+    public void searchTaskByDescription(String searchText) {
+        taskList
+                .stream()
+                .filter(t -> t.getDescription().contains(searchText))
+                .forEach(System.out::println);
     }
 
     public void editTaskInTaskList(String taskInfo) {
-        int taskIndex = -1;
         String[] command = taskInfo.split(" ", 2);
-        for (Task nextTask : taskList) {
-            if (nextTask.getId() == Integer.parseInt(command[0])) taskIndex = taskList.indexOf(nextTask);
-        }
-        if (taskIndex < 0) System.out.println(taskNotFound);
-        else this.taskList.get(taskIndex).setDescription(command[1]);
+        int taskId = Integer.parseInt(command[0]);
+        Optional<Task> foundTask = findTaskById(taskId);
+
+        if (foundTask.isPresent()) foundTask.get().setDescription(command[1]);
+        else System.out.println(taskNotFound);
     }
 
     public void changeTaskStatus(int taskId) {
-        int taskIndex = -1;
-        for (Task nextTask : taskList) {
-            if (nextTask.getId() == taskId) taskIndex = taskList.indexOf(nextTask);
+        Optional<Task> foundTask = findTaskById(taskId);
+
+        if (foundTask.isPresent()) {
+            Task currentTask = foundTask.get();
+
+            currentTask.setStatus(!currentTask.getStatus());
         }
-        if (taskIndex < 0) System.out.println(taskNotFound);
-            else this.taskList.get(taskIndex).setStatus(!this.taskList.get(taskIndex).getStatus());
+        else System.out.println(taskNotFound);
     }
 
     public void deleteTaskInTaskList(int taskId) {
-        int taskIndex = -1;
-        for (Task nextTask : taskList) {
-            if (nextTask.getId() == taskId) taskIndex = taskList.indexOf(nextTask);
-        }
-        if (taskIndex < 0) System.out.println(taskNotFound);
-            else this.taskList.remove(this.taskList.get(taskIndex));
+        Optional<Task> foundTask = findTaskById(taskId);
+
+        if (foundTask.isPresent()) taskList.remove(foundTask.get());
+            else System.out.println(taskNotFound);
     }
 
-    public int getTaskListSize(boolean onlyOpen) {
-        if(onlyOpen) {
-            ArrayList<Task> openTaskList = new ArrayList<>();
-            for (Task taskList : taskList) {
-                if (!taskList.getStatus())
-                openTaskList.add(taskList);
-            }
-            return openTaskList.size();
-        }
-        return taskList.size();
+    public Optional<Task> findTaskById(int taskId) {
+
+        return taskList
+                .stream()
+                .filter(t -> t.getId() == taskId)
+                .findFirst();
     }
 }
