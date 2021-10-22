@@ -1,37 +1,73 @@
 package com.example.todolist;
 
 import java.util.ArrayList;
+import java.util.Optional;
+import java.util.stream.Stream;
 
-public class TaskList { // Класс для работы со списком задач
+public class TaskList {
 
-    private String name; // Название списка задач
-    private Task taskList; // Список задач типа Task в виде одной записи
+    private ArrayList<Task> taskList = new ArrayList<>();
+    private int nextTaskId = 1;
+    private String taskNotFound = "Задача не найдена";
 
-    public TaskList(String name) { // Конструктор для создания Списка задач
-        this.name = name; // Устанавливаем имя на полученное
+    public void addTask(String task) {
+        Task receivedTask = new Task(nextTaskId++, false, task);
+
+        taskList.add(receivedTask);
     }
 
-    public void setTaskList(String task) { // Добавление задачи в список задач
-        taskList = new Task(1, false, task); // Создаем новую задачу заменяя старую при наличии, статус не сохраняется
-    }
+    public void printTaskList(boolean onlyOpen) {
+        Stream<Task> currentTaskList = taskList.stream();
 
-    public void printTaskList(boolean onlyOpen) { // Выводим на консоль список задач в зависимости от полученного на вход флага
-        if (this.getTaskListSize(onlyOpen) == 0) // Проверям что в списке задач есть садачи с нужным статусом
-            System.out.println(onlyOpen?"\nСписок открытых задач пуст":"\nСписок задач пуст"); // Сообщаем что задач нет
-        else {
-            System.out.println(this.name + "\n" + taskList); // Выводим название списка задач и список задач
+        if (onlyOpen) {
+            currentTaskList
+                    .filter(t -> t.getStatus() == !onlyOpen)
+                    .forEach(System.out::println);
+        } else {
+            currentTaskList
+                    .forEach(System.out::println);
         }
     }
 
-    public void changeTaskStatus(int number) { // Переключение статуса задачи
-        this.taskList.setStatus(!this.taskList.getStatus()); // Берем текущий статус и меняем на противоположный
-        System.out.println("\nТекущий статус задачи:\n" + taskList); // Сообщение о смене статуса и выводим задачу
+    public void searchTaskByDescription(String searchText) {
+        taskList
+                .stream()
+                .filter(t -> t.getDescription().contains(searchText))
+                .forEach(System.out::println);
     }
 
-    public int getTaskListSize(boolean onlyOpen) {  // Получение размера списка задач в зависимости от полученного на вход флага
-        if(onlyOpen) { // Проверка флага
-            return this.taskList == null || this.taskList.getStatus()?0:1; // Возвращаем размер списка открытых задач
+    public void editTaskInTaskList(String taskInfo) {
+        String[] command = taskInfo.split(" ", 2);
+        int taskId = Integer.parseInt(command[0]);
+        Optional<Task> foundTask = findTaskById(taskId);
+
+        if (foundTask.isPresent()) foundTask.get().setDescription(command[1]);
+        else System.out.println(taskNotFound);
+    }
+
+    public void changeTaskStatus(int taskId) {
+        Optional<Task> foundTask = findTaskById(taskId);
+
+        if (foundTask.isPresent()) {
+            Task currentTask = foundTask.get();
+
+            currentTask.setStatus(!currentTask.getStatus());
         }
-        return this.taskList == null?0:1; // Возвращаем размер списка всех задач
+        else System.out.println(taskNotFound);
+    }
+
+    public void deleteTaskInTaskList(int taskId) {
+        Optional<Task> foundTask = findTaskById(taskId);
+
+        if (foundTask.isPresent()) taskList.remove(foundTask.get());
+            else System.out.println(taskNotFound);
+    }
+
+    public Optional<Task> findTaskById(int taskId) {
+
+        return taskList
+                .stream()
+                .filter(t -> t.getId() == taskId)
+                .findFirst();
     }
 }
