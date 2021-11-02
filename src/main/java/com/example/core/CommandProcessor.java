@@ -9,7 +9,7 @@ public class CommandProcessor {
     private TaskList taskList = new TaskList();
     private CommandList commandList = new CommandList(taskList);
 
-    public void executeCommand(String commandLine) {
+    public void executeCommand(String commandLine) throws MyException {
 
         log.debug(commandLine);
 

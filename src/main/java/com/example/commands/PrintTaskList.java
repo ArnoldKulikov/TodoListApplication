@@ -1,11 +1,10 @@
 package com.example.commands;
 
+import com.example.core.MyException;
 import com.example.core.TaskList;
 import com.example.dictionaries.ErrorList;
 import com.example.interfaces.Command;
-import lombok.extern.slf4j.Slf4j;
 
-@Slf4j
 public class PrintTaskList implements Command {
 
     private TaskList taskList;
@@ -15,7 +14,7 @@ public class PrintTaskList implements Command {
     }
 
     @Override
-    public void execute(String[] commandLine) {
+    public void execute(String[] commandLine) throws MyException {
         if (commandLine.length == 1)
             taskList.getTaskList().stream()
                     .filter(t -> t.isClosed() == false)
@@ -24,9 +23,7 @@ public class PrintTaskList implements Command {
             taskList.getTaskList()
                     .forEach(System.out::println);
         else {
-            String errorMsg = ErrorList.ERRORLIST.get("unknownSubCommand");
-            log.error(errorMsg);
-            System.out.println(errorMsg);
+            throw new MyException(ErrorList.ERRORLIST.get("unknownSubCommand"));
         }
     }
 

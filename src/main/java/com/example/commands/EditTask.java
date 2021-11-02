@@ -1,13 +1,12 @@
 package com.example.commands;
 
+import com.example.core.MyException;
 import com.example.core.TaskList;
 import com.example.interfaces.Command;
 import com.example.core.Task;
 import com.example.dictionaries.ErrorList;
-import lombok.extern.slf4j.Slf4j;
 import java.util.Optional;
 
-@Slf4j
 public class EditTask implements Command {
 
     private TaskList taskList;
@@ -17,25 +16,16 @@ public class EditTask implements Command {
     }
 
     @Override
-    public void execute(String[] commandLine) {
+    public void execute(String[] commandLine) throws MyException {
         if (commandLine.length == 1) {
-            String errorMsg = ErrorList.ERRORLIST.get("notTaskId");
-            log.error(errorMsg);
-            System.out.println(errorMsg);
-            return;
+            throw new MyException(ErrorList.ERRORLIST.get("notTaskId"));
         }
         String[] argument = commandLine[1].split(" ", 2);
         if (!argument[0].matches("^[0-9]*$")) {
-            String errorMsg = ErrorList.ERRORLIST.get("notTaskId");
-            log.error(errorMsg);
-            System.out.println(errorMsg);
-            return;
+            throw new MyException(ErrorList.ERRORLIST.get("notTaskId"));
         }
         if (argument.length == 1) {
-            String errorMsg = ErrorList.ERRORLIST.get("emptyTaskDescription");
-            log.error(errorMsg);
-            System.out.println(errorMsg);
-            return;
+            throw new MyException(ErrorList.ERRORLIST.get("emptyTaskDescription"));
         }
         Optional<Task> foundTask = taskList.getTaskList()
                 .stream()
@@ -43,9 +33,7 @@ public class EditTask implements Command {
                 .findFirst();
         if (foundTask.isPresent()) foundTask.get().setDescription(argument[1]);
         else {
-            String errorMsg = ErrorList.ERRORLIST.get("taskNotFound");
-            log.error(errorMsg);
-            System.out.println(errorMsg);
+            throw new MyException(ErrorList.ERRORLIST.get("taskNotFound"));
         }
     }
 

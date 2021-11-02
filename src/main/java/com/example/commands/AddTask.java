@@ -1,12 +1,11 @@
 package com.example.commands;
 
+import com.example.core.MyException;
 import com.example.core.TaskList;
 import com.example.dictionaries.ErrorList;
 import com.example.interfaces.Command;
 import com.example.core.Task;
-import lombok.extern.slf4j.Slf4j;
 
-@Slf4j
 public class AddTask implements Command {
     private TaskList taskList;
 
@@ -15,12 +14,10 @@ public class AddTask implements Command {
     }
 
     @Override
-    public void execute(String[] commandLine) {
+    public void execute(String[] commandLine) throws MyException {
 
         if (commandLine.length == 1) {
-            String errorMsg = ErrorList.ERRORLIST.get("emptyTaskDescription");
-            log.error(errorMsg);
-            System.out.println(errorMsg);
+            throw new MyException(ErrorList.ERRORLIST.get("emptyTaskDescription"));
         } else {
             Task task = new Task (false, commandLine[1]);
             taskList.getTaskList().add(task);

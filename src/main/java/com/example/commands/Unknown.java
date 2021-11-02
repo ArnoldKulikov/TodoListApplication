@@ -1,16 +1,13 @@
 package com.example.commands;
 
+import com.example.core.MyException;
 import com.example.dictionaries.ErrorList;
 import com.example.interfaces.Command;
-import lombok.extern.slf4j.Slf4j;
 
-@Slf4j
 public class Unknown implements Command {
     @Override
-    public void execute(String[] commandLine) {
-        String errorMsg = ErrorList.ERRORLIST.get("unknownCommand");
-        log.error(errorMsg);
-        System.out.println(errorMsg);
+    public void execute(String[] commandLine) throws MyException {
+        throw new MyException(ErrorList.ERRORLIST.get("unknownCommand"));
     }
 
     @Override

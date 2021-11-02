@@ -1,13 +1,12 @@
 package com.example.commands;
 
+import com.example.core.MyException;
 import com.example.core.TaskList;
 import com.example.interfaces.Command;
 import com.example.core.Task;
 import com.example.dictionaries.ErrorList;
-import lombok.extern.slf4j.Slf4j;
 import java.util.Optional;
 
-@Slf4j
 public class DeleteTask implements Command {
 
     private TaskList taskList;
@@ -17,11 +16,9 @@ public class DeleteTask implements Command {
     }
 
     @Override
-    public void execute(String[] commandLine) {
+    public void execute(String[] commandLine) throws MyException {
         if (commandLine.length == 1 || !commandLine[1].matches("^[0-9]*$")) {
-            String errorMsg = ErrorList.ERRORLIST.get("notTaskId");
-            log.error(errorMsg);
-            System.out.println(errorMsg);
+            throw new MyException(ErrorList.ERRORLIST.get("notTaskId"));
         }
         else {
             Optional<Task> foundTask = taskList.getTaskList()
@@ -30,9 +27,7 @@ public class DeleteTask implements Command {
                     .findFirst();
             if (foundTask.isPresent()) taskList.getTaskList().remove(foundTask.get());
             else {
-                String errorMsg = ErrorList.ERRORLIST.get("taskNotFound");
-                log.error(errorMsg);
-                System.out.println(errorMsg);
+                throw new MyException(ErrorList.ERRORLIST.get("taskNotFound"));
             }
         }
     }

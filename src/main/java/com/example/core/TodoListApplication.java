@@ -22,8 +22,9 @@ public class TodoListApplication {
 			try {
 				processor.executeCommand(reader.readLine());
 			}
-			catch (IOException e) {
-				log.error(ErrorList.ERRORLIST.get("unknownError"));
+			catch (IOException | MyException e) {
+				System.out.println(e.getMessage());
+				log.error(e.getMessage());
 			}
 
 		}
