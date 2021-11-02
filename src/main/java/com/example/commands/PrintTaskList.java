@@ -1,27 +1,33 @@
 package com.example.commands;
 
-import com.example.core.PrintExecute;
 import com.example.dictionaries.ErrorList;
 import com.example.interfaces.Command;
 import com.example.core.Task;
-import com.example.prints.PrintAll;
-import com.example.prints.PrintOpen;
+import lombok.extern.slf4j.Slf4j;
 
 import java.util.List;
 
+@Slf4j
 public class PrintTaskList implements Command {
 
-    PrintExecute printExecute = new PrintExecute();
+    @Override
+    public void execute(List<Task> taskList, String[] commandLine) {
+        if (commandLine.length == 1)
+            taskList.stream()
+                    .filter(t -> t.isClosed() == false)
+                    .forEach(System.out::println);
+        else if (commandLine[1].equals("all"))
+            taskList
+                    .forEach(System.out::println);
+        else {
+            String errorMsg = ErrorList.ERRORLIST.get("unknownSubCommand");
+            log.error(errorMsg);
+            System.out.println(errorMsg);
+        }
+    }
 
     @Override
-    public void execute(List<Task> taskList, String commandLine) {
-        if (commandLine.equals("null")) printExecute.setPrint(new PrintOpen());
-        else if (commandLine.equals("all")) printExecute.setPrint(new PrintAll());
-        else {
-            System.out.println(ErrorList.ERRORLIST.get("unknownSubCommand"));
-            return;
-        }
-
-        printExecute.execute(taskList);
+    public boolean checkCommand(String command) {
+        return command.equals("print");
     }
 }

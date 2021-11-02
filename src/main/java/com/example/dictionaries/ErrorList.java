@@ -10,5 +10,6 @@ public class ErrorList {
             "taskNotFound", "Задача не найдена",
             "unknownError", "Неизвестная ошибка",
             "unknownSubCommand", "Некорректный аргумент команды",
-            "notTaskId", "Введен некорректный идентификатор задачи");
+            "notTaskId", "Введен некорректный идентификатор задачи",
+            "emptyTaskDescription", "Пустое описание задачи");
 }

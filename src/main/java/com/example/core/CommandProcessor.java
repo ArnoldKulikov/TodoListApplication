@@ -1,7 +1,7 @@
 package com.example.core;
 
-import com.example.commands.*;
 import com.example.dictionaries.*;
+import com.example.interfaces.Command;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 
@@ -12,28 +12,28 @@ import java.util.ArrayList;
 public class CommandProcessor {
 
     ArrayList<Task> taskList = new ArrayList<>();
-    CommandExecute commandExecute = new CommandExecute();
+    CommandList commandList = new CommandList();
 
     public void executeCommand(String commandLine) {
 
         log.debug(commandLine);
+        boolean commandIsExecuted = false;
 
-        String[] command = commandLine.split(" ",2);
-        String commandCode = command[0];
+        String[] commandArray = commandLine.split(" ",2);
+        String commandCode = commandArray[0];
 
-        if (commandCode.equals("add")) commandExecute.setCommand(new AddTask());
-        else if (commandCode.equals("print")) commandExecute.setCommand(new PrintTaskList());
-        else if (commandCode.equals("search")) commandExecute.setCommand(new SearchTask());
-        else if (commandCode.equals("toggle")) commandExecute.setCommand(new ChangeTaskStatus());
-        else if (commandCode.equals("delete")) commandExecute.setCommand(new DeleteTask());
-        else if (commandCode.equals("edit")) commandExecute.setCommand(new EditTask());
-        else if (commandCode.equals("quit")) System.exit(0);
-        else {
-            System.out.println(ErrorList.ERRORLIST.get("unknownCommand"));
-            return;
+        if (commandCode.equals("quit")) {
+            log.info("Программа завершена");
+            System.exit(0);
+        }
+        for (Command command: commandList.getCommandList()) {
+            if (command.checkCommand(commandCode)) {
+                command.execute(taskList, commandArray);
+                commandIsExecuted = true;
+            }
         }
 
-        commandExecute.execute(taskList, command.length==1?"null":command[1]);
+        if (!commandIsExecuted) System.out.println(ErrorList.ERRORLIST.get("unknownCommand"));
         log.debug(taskList.toString());
     }
 }

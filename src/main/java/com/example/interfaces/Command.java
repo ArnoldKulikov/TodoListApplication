@@ -6,5 +6,7 @@ import java.util.List;
 
 public interface Command {
 
-    void execute(List<Task> taskList, String commandLine);
+    void execute(List<Task> taskList, String[] commandLine);
+
+    boolean checkCommand(String command);
 }
