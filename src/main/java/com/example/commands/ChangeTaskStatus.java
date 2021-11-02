@@ -1,25 +1,31 @@
 package com.example.commands;
 
+import com.example.core.TaskList;
 import com.example.interfaces.Command;
 import com.example.core.Task;
 import com.example.dictionaries.ErrorList;
 import lombok.extern.slf4j.Slf4j;
-
-import java.util.List;
 import java.util.Optional;
 
 @Slf4j
 public class ChangeTaskStatus implements Command {
 
+    private TaskList taskList;
+
+    public ChangeTaskStatus(TaskList taskList) {
+        this.taskList = taskList;
+    }
+
     @Override
-    public void execute(List<Task> taskList, String[] commandLine) {
+    public void execute(String[] commandLine) {
+
         if (commandLine.length == 1 || !commandLine[1].matches("^[0-9]*$")) {
             String errorMsg = ErrorList.ERRORLIST.get("notTaskId");
             log.error(errorMsg);
             System.out.println(errorMsg);
         }
         else {
-            Optional<Task> foundTask = taskList
+            Optional<Task> foundTask = taskList.getTaskList()
                 .stream()
                 .filter(t -> t.getId() == Integer.parseInt(commandLine[1]))
                 .findFirst();

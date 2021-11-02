@@ -4,13 +4,13 @@ import lombok.Data;
 
 @Data
 public class Task {
-    public static int nextTaskId = 1;
+    private static int nextTaskId = 1;
     private int id;
     private boolean isClosed;
     private String description;
 
-    public Task(int id, boolean isClosed, String description) {
-        this.id = id;
+    public Task(boolean isClosed, String description) {
+        this.id = nextTaskId++;
         this.isClosed = isClosed;
         this.description = description;
     }

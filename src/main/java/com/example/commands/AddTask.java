@@ -1,29 +1,29 @@
 package com.example.commands;
 
+import com.example.core.TaskList;
 import com.example.dictionaries.ErrorList;
 import com.example.interfaces.Command;
 import com.example.core.Task;
 import lombok.extern.slf4j.Slf4j;
 
-import java.util.List;
-
 @Slf4j
 public class AddTask implements Command {
+    private TaskList taskList;
+
+    public AddTask(TaskList taskList) {
+        this.taskList = taskList;
+    }
 
     @Override
-    public void execute(List<Task> taskList, String[] commandLine) {
+    public void execute(String[] commandLine) {
 
         if (commandLine.length == 1) {
             String errorMsg = ErrorList.ERRORLIST.get("emptyTaskDescription");
             log.error(errorMsg);
             System.out.println(errorMsg);
         } else {
-
-            int nextTaskId = Task.nextTaskId;
-
-            Task task = new Task(nextTaskId, false, commandLine[1]);
-            taskList.add(task);
-            Task.nextTaskId = ++nextTaskId;
+            Task task = new Task (false, commandLine[1]);
+            taskList.getTaskList().add(task);
         }
     }
 

@@ -5,14 +5,12 @@ import com.example.interfaces.Command;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 
-import java.util.ArrayList;
-
 @Slf4j
 @Data
 public class CommandProcessor {
 
-    ArrayList<Task> taskList = new ArrayList<>();
-    CommandList commandList = new CommandList();
+    private TaskList taskList = new TaskList();
+    private CommandList commandList = new CommandList(taskList);
 
     public void executeCommand(String commandLine) {
 
@@ -28,7 +26,7 @@ public class CommandProcessor {
         }
         for (Command command: commandList.getCommandList()) {
             if (command.checkCommand(commandCode)) {
-                command.execute(taskList, commandArray);
+                command.execute(commandArray);
                 commandIsExecuted = true;
             }
         }
@@ -38,7 +36,7 @@ public class CommandProcessor {
             log.error(errorMsg);
             System.out.println(errorMsg);
         }
-        log.debug(taskList.toString());
+        log.debug(taskList.getTaskList().toString());
     }
 }
 

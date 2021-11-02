@@ -8,12 +8,15 @@ import java.util.List;
 
 @Data
 public class CommandList {
-    private List<Command> commandList = List.of(
-            new AddTask(),
-            new ChangeTaskStatus(),
-            new DeleteTask(),
-            new EditTask(),
-            new PrintTaskList(),
-            new SearchTask()
-    );
+    private List<Command> commandList;
+
+    public CommandList(TaskList taskList) {
+       commandList = List.of(
+                new AddTask(taskList),
+                new ChangeTaskStatus(taskList),
+                new DeleteTask(taskList),
+                new EditTask(taskList),
+                new PrintTaskList(taskList),
+                new SearchTask(taskList));
+    }
 }
