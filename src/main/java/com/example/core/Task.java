@@ -4,6 +4,7 @@ import lombok.Data;
 
 @Data
 public class Task {
+    public static int nextTaskId = 1;
     private int id;
     private boolean isClosed;
     private String description;
