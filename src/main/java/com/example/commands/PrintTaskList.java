@@ -20,7 +20,7 @@ public class PrintTaskList implements Command {
             taskList.getTaskList().stream()
                     .filter(t -> t.isClosed() == false)
                     .forEach(System.out::println);
-        else if (commandLine[1].equals("all"))
+        else if ("all".equals(commandLine[1]))
             taskList.getTaskList()
                     .forEach(System.out::println);
         else {
@@ -32,6 +32,6 @@ public class PrintTaskList implements Command {
 
     @Override
     public boolean checkCommand(String command) {
-        return command.equals("print");
+        return "print".equals(command);
     }
 }

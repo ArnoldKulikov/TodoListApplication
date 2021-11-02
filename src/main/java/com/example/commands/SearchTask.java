@@ -23,6 +23,6 @@ public class SearchTask implements Command {
 
     @Override
     public boolean checkCommand(String command) {
-        return command.equals("search");
+        return "search".equals(command);
     }
 }

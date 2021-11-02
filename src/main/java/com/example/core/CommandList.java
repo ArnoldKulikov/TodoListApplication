@@ -17,6 +17,8 @@ public class CommandList {
                 new DeleteTask(taskList),
                 new EditTask(taskList),
                 new PrintTaskList(taskList),
-                new SearchTask(taskList));
+                new SearchTask(taskList),
+                new Quit(),
+                new Unknown());
     }
 }

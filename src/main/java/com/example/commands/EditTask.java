@@ -51,6 +51,6 @@ public class EditTask implements Command {
 
     @Override
     public boolean checkCommand(String command) {
-        return command.equals("edit");
+        return "edit".equals(command);
     }
 }

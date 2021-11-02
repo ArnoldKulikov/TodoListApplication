@@ -39,6 +39,6 @@ public class DeleteTask implements Command {
 
     @Override
     public boolean checkCommand(String command) {
-        return command.equals("delete");
+        return "delete".equals(command);
     }
 }

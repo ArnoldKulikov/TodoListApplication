@@ -40,6 +40,6 @@ public class ChangeTaskStatus implements Command {
 
     @Override
     public boolean checkCommand(String command) {
-        return command.equals("toggle");
+        return "toggle".equals(command);
     }
 }

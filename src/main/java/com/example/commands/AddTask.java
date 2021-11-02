@@ -29,6 +29,6 @@ public class AddTask implements Command {
 
     @Override
     public boolean checkCommand(String command) {
-        return command.equals("add");
+        return "add".equals(command);
     }
 }
