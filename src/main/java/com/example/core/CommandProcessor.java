@@ -33,7 +33,11 @@ public class CommandProcessor {
             }
         }
 
-        if (!commandIsExecuted) System.out.println(ErrorList.ERRORLIST.get("unknownCommand"));
+        if (!commandIsExecuted) {
+            String errorMsg = ErrorList.ERRORLIST.get("unknownCommand");
+            log.error(errorMsg);
+            System.out.println(errorMsg);
+        }
         log.debug(taskList.toString());
     }
 }

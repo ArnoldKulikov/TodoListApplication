@@ -12,9 +12,6 @@ public class TodoListApplication {
 
 	public static void main(String[] args) {
 
-		//if (args[0].equals("debug") || args[0].isEmpty()) System.setProperty("LEVEL", args[0].equals("debug")?args[0]:"info");
-
-		log.info("==================");
 		log.info("Программа запущена");
 
 		CommandProcessor processor = new CommandProcessor();
