@@ -7,7 +7,7 @@ import com.example.interfaces.Command;
 public class Unknown implements Command {
     @Override
     public void execute(String[] commandLine) throws MyException {
-        throw new MyException(ErrorList.ERRORLIST.get("unknownCommand"));
+        throw new MyException("unknownCommand");
     }
 
     @Override

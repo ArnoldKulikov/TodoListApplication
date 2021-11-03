@@ -17,7 +17,7 @@ public class AddTask implements Command {
     public void execute(String[] commandLine) throws MyException {
 
         if (commandLine.length == 1) {
-            throw new MyException(ErrorList.ERRORLIST.get("emptyTaskDescription"));
+            throw new MyException("emptyTaskDescription");
         } else {
             Task task = new Task (false, commandLine[1]);
             taskList.getTaskList().add(task);

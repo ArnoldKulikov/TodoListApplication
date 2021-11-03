@@ -20,7 +20,7 @@ public class ChangeTaskStatus implements Command {
     public void execute(String[] commandLine) throws MyException {
 
         if (commandLine.length == 1 || !commandLine[1].matches("^[0-9]*$")) {
-            throw new MyException(ErrorList.ERRORLIST.get("notTaskId"));
+            throw new MyException("notTaskId");
         }
         else {
             Optional<Task> foundTask = taskList.getTaskList()
@@ -29,7 +29,7 @@ public class ChangeTaskStatus implements Command {
                 .findFirst();
             if (foundTask.isPresent()) foundTask.get().setClosed(!foundTask.get().isClosed());
             else {
-                throw new MyException(ErrorList.ERRORLIST.get("taskNotFound"));
+                throw new MyException("taskNotFound");
             }
         }
     }

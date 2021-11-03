@@ -23,7 +23,7 @@ public class PrintTaskList implements Command {
             taskList.getTaskList()
                     .forEach(System.out::println);
         else {
-            throw new MyException(ErrorList.ERRORLIST.get("unknownSubCommand"));
+            throw new MyException("unknownSubCommand");
         }
     }
 

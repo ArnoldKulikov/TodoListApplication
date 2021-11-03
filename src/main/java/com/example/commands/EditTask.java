@@ -18,14 +18,14 @@ public class EditTask implements Command {
     @Override
     public void execute(String[] commandLine) throws MyException {
         if (commandLine.length == 1) {
-            throw new MyException(ErrorList.ERRORLIST.get("notTaskId"));
+            throw new MyException("notTaskId");
         }
         String[] argument = commandLine[1].split(" ", 2);
         if (!argument[0].matches("^[0-9]*$")) {
-            throw new MyException(ErrorList.ERRORLIST.get("notTaskId"));
+            throw new MyException("notTaskId");
         }
         if (argument.length == 1) {
-            throw new MyException(ErrorList.ERRORLIST.get("emptyTaskDescription"));
+            throw new MyException("emptyTaskDescription");
         }
         Optional<Task> foundTask = taskList.getTaskList()
                 .stream()
@@ -33,7 +33,7 @@ public class EditTask implements Command {
                 .findFirst();
         if (foundTask.isPresent()) foundTask.get().setDescription(argument[1]);
         else {
-            throw new MyException(ErrorList.ERRORLIST.get("taskNotFound"));
+            throw new MyException("taskNotFound");
         }
     }
 
