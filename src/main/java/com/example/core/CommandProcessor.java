@@ -15,8 +15,6 @@ public class CommandProcessor {
 
     public void executeCommand(CommandLine commandLine) throws MyException {
 
-        log.debug(commandLine.toString());
-
         for (Command command: commandList.getCommandList()) {
             if (command.checkCommand(commandLine.getName())) {
                 command.execute(commandLine);
