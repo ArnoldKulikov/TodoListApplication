@@ -1,5 +1,7 @@
 package com.example.core;
 
+import com.example.data.models.MyException;
+import com.example.parsers.Parser;
 import lombok.extern.slf4j.Slf4j;
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -13,14 +15,15 @@ public class TodoListApplication {
 		log.info("Программа запущена");
 
 		CommandProcessor processor = new CommandProcessor();
-		BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
+		BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(System.in));
+		Parser parser = new Parser();
 
 		while (true)
 		{
 			try {
-				processor.executeCommand(reader.readLine());
+				processor.executeCommand(parser.parseLine(bufferedReader.readLine()));
 			}
-			catch (IOException | MyException e) {
+			catch (IOException | MyException | NumberFormatException e) {
 				System.out.println(e.getMessage());
 				log.error(e.getMessage());
 			}

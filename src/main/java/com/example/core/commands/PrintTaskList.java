@@ -1,8 +1,8 @@
-package com.example.commands;
+package com.example.core.commands;
 
-import com.example.core.MyException;
-import com.example.core.TaskList;
-import com.example.dictionaries.ErrorList;
+import com.example.data.models.MyException;
+import com.example.data.base.TaskList;
+import com.example.data.models.CommandLine;
 import com.example.interfaces.Command;
 
 public class PrintTaskList implements Command {
@@ -14,12 +14,12 @@ public class PrintTaskList implements Command {
     }
 
     @Override
-    public void execute(String[] commandLine) throws MyException {
-        if (commandLine.length == 1)
+    public void execute(CommandLine commandLine) throws MyException {
+        if (commandLine.getArgument() == null)
             taskList.getTaskList().stream()
                     .filter(t -> t.isClosed() == false)
                     .forEach(System.out::println);
-        else if ("all".equals(commandLine[1]))
+        else if ("all".equals(commandLine.getArgument()))
             taskList.getTaskList()
                     .forEach(System.out::println);
         else {

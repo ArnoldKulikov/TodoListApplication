@@ -1,6 +1,7 @@
-package com.example.core;
+package com.example.data.dictionaries;
 
-import com.example.commands.*;
+import com.example.core.commands.*;
+import com.example.data.base.TaskList;
 import com.example.interfaces.Command;
 import lombok.Data;
 

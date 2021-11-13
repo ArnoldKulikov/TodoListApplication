@@ -1,10 +1,11 @@
-package com.example.commands;
+package com.example.core.commands;
 
-import com.example.core.MyException;
-import com.example.core.TaskList;
+import com.example.data.models.MyException;
+import com.example.data.base.TaskList;
+import com.example.data.models.CommandLine;
 import com.example.interfaces.Command;
-import com.example.core.Task;
-import com.example.dictionaries.ErrorList;
+import com.example.data.models.Task;
+
 import java.util.Optional;
 
 public class EditTask implements Command {
@@ -16,22 +17,18 @@ public class EditTask implements Command {
     }
 
     @Override
-    public void execute(String[] commandLine) throws MyException {
-        if (commandLine.length == 1) {
+    public void execute(CommandLine commandLine) throws MyException {
+        if (commandLine.getTaskId() == null) {
             throw new MyException("notTaskId");
         }
-        String[] argument = commandLine[1].split(" ", 2);
-        if (!argument[0].matches("^[0-9]*$")) {
-            throw new MyException("notTaskId");
-        }
-        if (argument.length == 1) {
+        if (commandLine.getDescription() == null) {
             throw new MyException("emptyTaskDescription");
         }
         Optional<Task> foundTask = taskList.getTaskList()
                 .stream()
-                .filter(t -> t.getId() == Integer.parseInt(argument[0]))
+                .filter(t -> t.getId() == commandLine.getTaskId())
                 .findFirst();
-        if (foundTask.isPresent()) foundTask.get().setDescription(argument[1]);
+        if (foundTask.isPresent()) foundTask.get().setDescription(commandLine.getDescription());
         else {
             throw new MyException("taskNotFound");
         }

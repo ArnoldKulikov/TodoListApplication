@@ -1,6 +1,6 @@
-package com.example.core;
+package com.example.data.models;
 
-import com.example.dictionaries.ErrorList;
+import com.example.data.dictionaries.ErrorList;
 
 public class MyException extends Exception {
 

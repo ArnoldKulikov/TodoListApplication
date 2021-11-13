@@ -1,10 +1,11 @@
 package com.example.interfaces;
 
-import com.example.core.MyException;
+import com.example.data.models.MyException;
+import com.example.data.models.CommandLine;
 
 public interface Command {
 
-    void execute(String[] commandLine) throws MyException;
+    void execute(CommandLine commandLine) throws MyException;
 
     boolean checkCommand(String command);
 }

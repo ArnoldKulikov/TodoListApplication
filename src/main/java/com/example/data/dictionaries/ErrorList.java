@@ -1,4 +1,4 @@
-package com.example.dictionaries;
+package com.example.data.dictionaries;
 
 
 import java.util.Map;

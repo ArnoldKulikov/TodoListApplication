@@ -1,10 +1,10 @@
-package com.example.commands;
+package com.example.core.commands;
 
-import com.example.core.MyException;
-import com.example.core.TaskList;
-import com.example.dictionaries.ErrorList;
+import com.example.data.models.MyException;
+import com.example.data.base.TaskList;
+import com.example.data.models.CommandLine;
 import com.example.interfaces.Command;
-import com.example.core.Task;
+import com.example.data.models.Task;
 
 public class AddTask implements Command {
     private TaskList taskList;
@@ -14,12 +14,12 @@ public class AddTask implements Command {
     }
 
     @Override
-    public void execute(String[] commandLine) throws MyException {
+    public void execute(CommandLine commandLine) throws MyException {
 
-        if (commandLine.length == 1) {
+        if (commandLine.getDescription() == null) {
             throw new MyException("emptyTaskDescription");
         } else {
-            Task task = new Task (false, commandLine[1]);
+            Task task = new Task (false, commandLine.getDescription());
             taskList.getTaskList().add(task);
         }
     }

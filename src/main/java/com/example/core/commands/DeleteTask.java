@@ -1,10 +1,11 @@
-package com.example.commands;
+package com.example.core.commands;
 
-import com.example.core.MyException;
-import com.example.core.TaskList;
+import com.example.data.models.MyException;
+import com.example.data.base.TaskList;
+import com.example.data.models.CommandLine;
 import com.example.interfaces.Command;
-import com.example.core.Task;
-import com.example.dictionaries.ErrorList;
+import com.example.data.models.Task;
+
 import java.util.Optional;
 
 public class DeleteTask implements Command {
@@ -16,14 +17,14 @@ public class DeleteTask implements Command {
     }
 
     @Override
-    public void execute(String[] commandLine) throws MyException {
-        if (commandLine.length == 1 || !commandLine[1].matches("^[0-9]*$")) {
+    public void execute(CommandLine commandLine) throws MyException {
+        if (commandLine.getTaskId() == null) {
             throw new MyException("notTaskId");
         }
         else {
             Optional<Task> foundTask = taskList.getTaskList()
                     .stream()
-                    .filter(t -> t.getId() == Integer.parseInt(commandLine[1]))
+                    .filter(t -> t.getId() == commandLine.getTaskId())
                     .findFirst();
             if (foundTask.isPresent()) taskList.getTaskList().remove(foundTask.get());
             else {

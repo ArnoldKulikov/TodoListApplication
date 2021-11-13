@@ -1,24 +1,25 @@
 package com.example.core;
 
+import com.example.data.base.TaskList;
+import com.example.data.dictionaries.CommandList;
+import com.example.data.models.CommandLine;
+import com.example.data.models.MyException;
 import com.example.interfaces.Command;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 public class CommandProcessor {
 
-    private TaskList taskList = new TaskList();
+    private TaskList taskList = TaskList.getInstance();
     private CommandList commandList = new CommandList(taskList);
 
-    public void executeCommand(String commandLine) throws MyException {
+    public void executeCommand(CommandLine commandLine) throws MyException {
 
-        log.debug(commandLine);
-
-        String[] commandArray = commandLine.split(" ",2);
-        String commandCode = commandArray[0];
+        log.debug(commandLine.toString());
 
         for (Command command: commandList.getCommandList()) {
-            if (command.checkCommand(commandCode)) {
-                command.execute(commandArray);
+            if (command.checkCommand(commandLine.getName())) {
+                command.execute(commandLine);
                 break;
             }
         }

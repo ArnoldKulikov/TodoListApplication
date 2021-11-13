@@ -1,6 +1,7 @@
-package com.example.commands;
+package com.example.core.commands;
 
-import com.example.core.TaskList;
+import com.example.data.base.TaskList;
+import com.example.data.models.CommandLine;
 import com.example.interfaces.Command;
 
 public class SearchTask implements Command {
@@ -12,11 +13,11 @@ public class SearchTask implements Command {
     }
 
     @Override
-    public void execute(String[] commandLine) {
-        if (commandLine.length != 1) {
+    public void execute(CommandLine commandLine) {
+        if (commandLine.getDescription() != null) {
             taskList.getTaskList()
                     .stream()
-                    .filter(t -> t.getDescription().contains(commandLine[1]))
+                    .filter(t -> t.getDescription().contains(commandLine.getDescription()))
                     .forEach(System.out::println);
         }
     }
