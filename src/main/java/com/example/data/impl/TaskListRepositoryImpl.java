@@ -4,9 +4,7 @@ import com.example.data.TaskListRepository;
 import com.example.data.models.Task;
 import com.example.exeption.MyException;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public class TaskListRepositoryImpl implements TaskListRepository {
@@ -20,7 +18,7 @@ public class TaskListRepositoryImpl implements TaskListRepository {
 
     @Override
     public List<Task> getAllTasks() {
-        return new ArrayList<>(taskList);
+        return taskList;
     }
 
     @Override
@@ -45,17 +43,15 @@ public class TaskListRepositoryImpl implements TaskListRepository {
     @Override
     public List<Task> getTaskByStatus(boolean isClosed) {
         return taskList.stream()
-                .filter((t -> t.isClosed() == isClosed))
+                .filter(t -> t.isClosed() == isClosed)
                 .collect(Collectors.toList());
     }
 
     @Override
     public void updateTask(Task task) throws MyException {
-        Task localTask = getTaskById(task.getId());
-
-        localTask.setId(task.getId());
-        localTask.setDescription(task.getDescription());
-        localTask.setClosed(task.isClosed());
+        deleteTaskById(task.getId());
+        createTask(task);
+        taskList.sort(Comparator.comparing(Task::getId));
     }
 
     @Override

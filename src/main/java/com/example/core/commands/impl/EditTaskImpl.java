@@ -25,7 +25,8 @@ public class EditTaskImpl implements Command {
             throw new MyException("emptyTaskDescription");
         }
 
-        Task task = new Task(taskId, taskListRepository.getTaskById(taskId).isClosed(), description);
+        Task task = taskListRepository.getTaskById(taskId);
+        task.setDescription(description);
         taskListRepository.updateTask(task);
 
         log.debug(taskListRepository.getAllTasks().toString());

@@ -17,7 +17,7 @@ public class Editor {
             Editor.write(ex.toString());
             log.error(ex.getMessage());
         }
-        return null;
+        return "";
     }
 
     public static void write(String msg) {

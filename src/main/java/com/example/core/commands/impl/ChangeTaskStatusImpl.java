@@ -21,7 +21,8 @@ public class ChangeTaskStatusImpl implements Command {
             throw new MyException("notTaskId");
         }
 
-        Task task = new Task(taskId, !taskListRepository.getTaskById(taskId).isClosed(), taskListRepository.getTaskById(taskId).getDescription());
+        Task task = taskListRepository.getTaskById(taskId);
+        task.setClosed(!task.isClosed());
         taskListRepository.updateTask(task);
 
         log.debug(taskListRepository.getAllTasks().toString());
