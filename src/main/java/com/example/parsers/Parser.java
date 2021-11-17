@@ -1,8 +1,6 @@
 package com.example.parsers;
 
-import com.example.data.models.CommandLine;
 import lombok.extern.slf4j.Slf4j;
-
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -11,20 +9,25 @@ public class Parser {
 
     private static final Pattern COMMAND_TEMPLATE = Pattern.compile("\\s*(?<name>\\w+)(?:\\s+(?<argument>(?:(?<id>\\d+)\\b)?(?<description>.*)))?");
 
-    public CommandLine parseLine(String inputLine) throws NumberFormatException {
+    public static CommandLine parseLine(String inputLine) throws NumberFormatException {
         log.debug(inputLine);
         Matcher matcher = COMMAND_TEMPLATE.matcher(inputLine);
         if (matcher.find()) {
-            CommandLine.CommandLineBuilder builder = CommandLine.builder()
-                    .name(matcher.group("name"))
-                    .argument(matcher.group("argument"))
-                    .description(matcher.group("description"));
-            String taskId = matcher.group("id");
-            if(taskId != null) {
-                builder.taskId(Long.parseLong(taskId));
+            String name = matcher.group("name");
+            String argument = matcher.group("argument");
+            String description = matcher.group("description");
+            String id = matcher.group("id");
+            Long taskId = null;
+            if(id != null) {
+                taskId = Long.parseLong(id);
             }
-            return builder.build();
+            return new CommandLine()
+                    .setName(name)
+                    .setArgument(argument)
+                    .setDescription(description)
+                    .setTaskId(taskId);
         }
-        return null;
+        return new CommandLine()
+                .setName("unknownCommand");
     }
 }

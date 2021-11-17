@@ -1,7 +1,7 @@
-package com.example.interfaces;
+package com.example.core.commands;
 
-import com.example.data.models.MyException;
-import com.example.data.models.CommandLine;
+import com.example.exeption.MyException;
+import com.example.parsers.CommandLine;
 
 public interface Command {
 

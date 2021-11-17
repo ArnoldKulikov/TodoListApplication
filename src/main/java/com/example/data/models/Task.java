@@ -4,8 +4,8 @@ import lombok.Data;
 
 @Data
 public class Task {
-    private static int nextTaskId = 1;
-    private int id;
+    private static Long nextTaskId = 1L;
+    private Long id;
     private boolean isClosed;
     private String description;
 
@@ -15,8 +15,14 @@ public class Task {
         this.description = description;
     }
 
+    public Task(Long id, boolean isClosed, String description) {
+        this.id = id;
+        this.isClosed = isClosed;
+        this.description = description;
+    }
+
     @Override
     public String toString() {
-        return  id + ". " + (isClosed?"[x]":"[ ]") + " " + description;
+        return id + ". " + (isClosed ? "[x]" : "[ ]") + " " + description;
     }
 }
