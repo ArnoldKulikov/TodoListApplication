@@ -15,12 +15,12 @@ public class TaskListRepositoryImpl implements TaskListRepository {
     private static final List<Task> taskList = new ArrayList<>();
 
     @Override
-    public void createTask(String description) {
+    public void createTask(Task task) {
         taskList.add(
                 new Task()
                         .setId(nextTaskId++)
-                        .setClosed(false)
-                        .setDescription(description)
+                        .setClosed(task.isClosed())
+                        .setDescription(task.getDescription())
         );
     }
 

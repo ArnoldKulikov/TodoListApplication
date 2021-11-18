@@ -2,10 +2,10 @@ package com.example.core.commands.impl;
 
 import com.example.core.commands.Command;
 import com.example.data.TaskListRepository;
-import com.example.exeption.MyException;
 import com.example.data.impl.TaskListRepositoryImpl;
-import com.example.parsers.CommandLine;
 import com.example.data.models.Task;
+import com.example.exeption.MyException;
+import com.example.parsers.CommandLine;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
@@ -21,7 +21,11 @@ public class AddTaskImpl implements Command {
             throw new MyException("emptyTaskDescription");
         }
 
-        taskListRepository.createTask(description);
+        Task task = new Task()
+                .setClosed(false)
+                .setDescription(description);
+
+        taskListRepository.createTask(task);
 
         log.debug(taskListRepository.getAllTasks().toString());
     }
