@@ -7,7 +7,7 @@ import java.util.List;
 
 public interface TaskListRepository {
 
-    void createTask(Task task);
+    void createTask(String description);
 
     List<Task> getAllTasks();
 

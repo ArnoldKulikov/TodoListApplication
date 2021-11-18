@@ -15,13 +15,13 @@ public class AddTaskImpl implements Command {
 
     @Override
     public void execute(CommandLine commandLine) throws MyException {
+        String description = commandLine.getDescription();
 
-        if (commandLine.getDescription() == null) {
+        if (description == null) {
             throw new MyException("emptyTaskDescription");
         }
 
-        Task task = new Task(false, commandLine.getDescription());
-        taskListRepository.createTask(task);
+        taskListRepository.createTask(description);
 
         log.debug(taskListRepository.getAllTasks().toString());
     }
