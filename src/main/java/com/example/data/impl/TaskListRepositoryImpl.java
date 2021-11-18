@@ -16,12 +16,7 @@ public class TaskListRepositoryImpl implements TaskListRepository {
 
     @Override
     public void createTask(Task task) {
-        taskList.add(
-                new Task()
-                        .setId(nextTaskId++)
-                        .setClosed(task.isClosed())
-                        .setDescription(task.getDescription())
-        );
+        taskList.add(task.setId(nextTaskId++));
     }
 
     @Override
