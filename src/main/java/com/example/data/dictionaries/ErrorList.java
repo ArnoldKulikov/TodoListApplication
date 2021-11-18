@@ -1,11 +1,11 @@
-package com.example.dictionaries;
+package com.example.data.dictionaries;
 
 
 import java.util.Map;
 
 public class ErrorList {
 
-    public static final Map<String, String> ERRORLIST = Map.of(
+    public static final Map<String, String> ERROR_LIST = Map.of(
             "unknownCommand", "Некорректная команда",
             "taskNotFound", "Задача не найдена",
             "unknownError", "Неизвестная ошибка",
