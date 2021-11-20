@@ -5,11 +5,17 @@ import com.example.parsers.CommandLine;
 import com.example.parsers.Editor;
 import com.example.parsers.Parser;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
 
 @Slf4j
+@Component
 public class TodoListApplication {
 
     private static TodoListApplication NEW_TASK_LIST;
+
+    @Value("${spring.application.name}")
+    String a;
 
     private TodoListApplication() {
     }
@@ -26,7 +32,7 @@ public class TodoListApplication {
     }
 
     public void run() {
-
+        System.out.println(a);
         log.info("Программа запущена");
 
         CommandProcessor processor = new CommandProcessor();
