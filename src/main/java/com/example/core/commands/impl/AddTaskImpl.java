@@ -2,16 +2,32 @@ package com.example.core.commands.impl;
 
 import com.example.core.commands.Command;
 import com.example.data.TaskListRepository;
-import com.example.data.impl.TaskListRepositoryImpl;
 import com.example.data.models.Task;
 import com.example.exeption.MyException;
 import com.example.parsers.CommandLine;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.stereotype.Component;
 
 @Slf4j
+@Component
+@Configuration
+@RequiredArgsConstructor
 public class AddTaskImpl implements Command {
 
-    private TaskListRepository taskListRepository = new TaskListRepositoryImpl();
+    private final String commandName;
+    private final TaskListRepository taskListRepository;
+    private Task task;
+
+    @Autowired
+    public AddTaskImpl(@Value("${application.commands.add.name}") String commandName, TaskListRepository taskListRepository, Task taks) {
+        this.commandName = commandName;
+        this.taskListRepository = taskListRepository;
+        this.task = taks;
+    }
 
     @Override
     public void execute(CommandLine commandLine) throws MyException {
@@ -21,7 +37,7 @@ public class AddTaskImpl implements Command {
             throw new MyException("emptyTaskDescription");
         }
 
-        Task task = new Task()
+        task
                 .setClosed(false)
                 .setDescription(description);
 
@@ -32,6 +48,6 @@ public class AddTaskImpl implements Command {
 
     @Override
     public boolean checkCommand(String command) {
-        return "add".equals(command);
+        return commandName.equals(command);
     }
 }

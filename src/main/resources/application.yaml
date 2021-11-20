@@ -1,5 +1,19 @@
-test:
-  text: asd
-commands:
-  quit:
-    name: quit
+application:
+  commands:
+    quit:
+      name: quit
+    add:
+      name: add
+    toggle:
+      name: toggle
+    delete:
+      name: delete
+    edit:
+      name: edit
+    print:
+      name: print
+      arg: all
+    search:
+      name: search
+    unknown:
+      name: unknown

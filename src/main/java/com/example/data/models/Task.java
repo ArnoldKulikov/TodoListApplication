@@ -3,10 +3,12 @@ package com.example.data.models;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.Accessors;
+import org.springframework.stereotype.Component;
 
 @Getter
 @Setter
 @Accessors(chain = true)
+@Component
 public class Task {
 
     private Long id;
