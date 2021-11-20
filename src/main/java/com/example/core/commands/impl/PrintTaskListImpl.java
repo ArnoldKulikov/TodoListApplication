@@ -8,19 +8,13 @@ import com.example.parsers.CommandLine;
 import com.example.data.models.Task;
 import com.example.parsers.Editor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 
 import java.util.List;
 
 @Slf4j
-@Component
 public class PrintTaskListImpl implements Command {
 
     private TaskListRepository taskListRepository = new TaskListRepositoryImpl();
-
-    @Autowired
-    Editor editor;
 
     @Override
     public void execute(CommandLine commandLine) throws MyException {
@@ -35,7 +29,7 @@ public class PrintTaskListImpl implements Command {
             throw new MyException("unknownSubCommand");
         }
         for (Task task : printingList) {
-            editor.write(task.toString());
+            Editor.write(task.toString());
         }
 
         log.debug(taskListRepository.getAllTasks().toString());

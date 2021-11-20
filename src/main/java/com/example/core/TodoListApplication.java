@@ -15,28 +15,30 @@ import org.springframework.stereotype.Component;
 @Configuration
 public class TodoListApplication {
 
-    @Value("${commands.quit.name}")
+    @Value("${commands.quit.name}") //как вытащить конкретное значение из конфига если там список значений
     private String commandsQuitName;
 
     @Autowired
     CommandProcessor processor;
-    Editor editor;
 
     public void run() {
 
         log.info("Программа запущена");
         System.out.println("Программа запущена");
 
-        CommandLine commandLine = Parser.parseLine(editor.read());
+        CommandLine commandLine = Parser.parseLine(Editor.read());
 
         while (!commandsQuitName.equals(commandLine.getName())) {
             try {
+                System.out.println("Выполнение команды");
                 processor.executeCommand(commandLine);
+                System.out.println("Команда выполнена");
             } catch (MyException | NumberFormatException e) {
-                editor.write(e.getMessage());
+                Editor.write(e.getMessage());
                 log.error(e.getMessage());
+                System.out.println(e.getMessage());
             }
-            commandLine = Parser.parseLine(editor.read());
+            commandLine = Parser.parseLine(Editor.read());
         }
 
         log.info("Программа завершена");
