@@ -1,0 +1,5 @@
+test:
+  text: asd
+commands:
+  quit:
+    name: quit

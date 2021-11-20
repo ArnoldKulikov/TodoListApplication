@@ -5,47 +5,38 @@ import com.example.parsers.CommandLine;
 import com.example.parsers.Editor;
 import com.example.parsers.Parser;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.stereotype.Component;
 
 @Slf4j
 @Component
+@Configuration
 public class TodoListApplication {
 
-    private static TodoListApplication NEW_TASK_LIST;
+    @Value("${commands.quit.name}")
+    private String commandsQuitName;
 
-    @Value("${spring.application.name}")
-    String a;
-
-    private TodoListApplication() {
-    }
-
-    public static TodoListApplication getInstance() {
-        if (NEW_TASK_LIST == null) {
-            synchronized (TodoListApplication.class) {
-                if (NEW_TASK_LIST == null) {
-                    NEW_TASK_LIST = new TodoListApplication();
-                }
-            }
-        }
-        return NEW_TASK_LIST;
-    }
+    @Autowired
+    CommandProcessor processor;
+    Editor editor;
 
     public void run() {
-        System.out.println(a);
+
         log.info("Программа запущена");
+        System.out.println("Программа запущена");
 
-        CommandProcessor processor = new CommandProcessor();
-        CommandLine commandLine = Parser.parseLine(Editor.read());
+        CommandLine commandLine = Parser.parseLine(editor.read());
 
-        while (!"quit".equals(commandLine.getName())) {
+        while (!commandsQuitName.equals(commandLine.getName())) {
             try {
                 processor.executeCommand(commandLine);
             } catch (MyException | NumberFormatException e) {
-                Editor.write(e.getMessage());
+                editor.write(e.getMessage());
                 log.error(e.getMessage());
             }
-            commandLine = Parser.parseLine(Editor.read());
+            commandLine = Parser.parseLine(editor.read());
         }
 
         log.info("Программа завершена");
