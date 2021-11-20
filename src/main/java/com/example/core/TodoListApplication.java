@@ -20,13 +20,15 @@ public class TodoListApplication {
 
     @Autowired
     CommandProcessor processor;
+    @Autowired
+    Editor editor;
 
     public void run() {
 
         log.info("Программа запущена");
         System.out.println("Программа запущена");
 
-        CommandLine commandLine = Parser.parseLine(Editor.read());
+        CommandLine commandLine = Parser.parseLine(editor.read());
 
         while (!commandsQuitName.equals(commandLine.getName())) {
             try {
@@ -34,11 +36,11 @@ public class TodoListApplication {
                 processor.executeCommand(commandLine);
                 System.out.println("Команда выполнена");
             } catch (MyException | NumberFormatException e) {
-                Editor.write(e.getMessage());
+                editor.write(e.getMessage());
                 log.error(e.getMessage());
                 System.out.println(e.getMessage());
             }
-            commandLine = Parser.parseLine(Editor.read());
+            commandLine = Parser.parseLine(editor.read());
         }
 
         log.info("Программа завершена");

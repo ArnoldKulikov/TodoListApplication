@@ -12,7 +12,7 @@ import java.io.InputStreamReader;
 @Component
 public class Editor {
 
-    public static String read() {
+    public String read() {
         BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(System.in));
         try {
             return bufferedReader.readLine();
@@ -23,7 +23,7 @@ public class Editor {
         return "";
     }
 
-    public static void write(String msg) {
+    public void write(String msg) {
         System.out.println(msg);
     }
 }
