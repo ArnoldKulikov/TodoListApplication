@@ -1,3 +1,4 @@
+/*
 package com.example.core.commands.impl;
 
 import com.example.core.commands.Command;
@@ -41,3 +42,4 @@ public class ChangeTaskStatusImpl implements Command {
         return commandName.equals(command);
     }
 }
+*/

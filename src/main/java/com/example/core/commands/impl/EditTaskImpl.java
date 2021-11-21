@@ -1,3 +1,4 @@
+/*
 package com.example.core.commands.impl;
 
 import com.example.core.commands.Command;
@@ -45,3 +46,4 @@ public class EditTaskImpl implements Command {
         return commandName.equals(command);
     }
 }
+*/

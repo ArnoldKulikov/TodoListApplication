@@ -2,7 +2,8 @@ package com.example.core.commands.impl;
 
 import com.example.core.commands.Command;
 import com.example.data.TaskListRepository;
-import com.example.exeption.MyException;
+/*import com.example.exeption.MyException;*/
+import com.example.data.dictionaries.ErrorList;
 import com.example.parsers.CommandLine;
 import com.example.data.models.Task;
 import com.example.parsers.Editor;
@@ -20,14 +21,15 @@ import java.util.List;
 public class PrintTaskListImpl implements Command {
 
     @Value("${application.commands.print.name}")
-    private final String commandName;
+    private String commandName;
     @Value("${application.commands.print.arg}")
-    private final String commandArgName;
+    private String commandArgName;
     private final TaskListRepository taskListRepository;
     private final Editor editor;
+    private final ErrorList errorList;
 
     @Override
-    public void execute(CommandLine commandLine) throws MyException {
+    public void execute(CommandLine commandLine) /*throws MyException*/ {
         List<Task> printingList;
         String argument = commandLine.getArgument();
 
@@ -36,7 +38,10 @@ public class PrintTaskListImpl implements Command {
         else if (commandArgName.equals(argument))
             printingList = taskListRepository.getAllTasks();
         else {
-            throw new MyException("unknownSubCommand");
+            /*throw new MyException("unknownSubCommand");*/
+            System.out.println(errorList.getErrorList().get("emptyTaskDescription"));
+            log.debug(taskListRepository.getAllTasks().toString());
+            return;
         }
         for (Task task : printingList) {
             editor.write(task.toString());

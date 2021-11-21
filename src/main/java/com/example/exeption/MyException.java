@@ -1,3 +1,4 @@
+/*
 package com.example.exeption;
 
 import com.example.data.dictionaries.ErrorList;
@@ -8,3 +9,4 @@ public class MyException extends Exception {
         super(ErrorList.ERROR_LIST.get(message));
     }
 }
+*/

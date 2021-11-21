@@ -16,4 +16,13 @@ public class CommandLine {
     private String description;
     private String argument;
 
+    @Override
+    public String toString() {
+        return "CommandLine{" +
+                "name='" + name + '\'' +
+                ", taskId=" + taskId +
+                ", description='" + description + '\'' +
+                ", argument='" + argument + '\'' +
+                '}';
+    }
 }

@@ -1,6 +1,6 @@
 package com.example.core;
 
-import com.example.exeption.MyException;
+/*import com.example.exeption.MyException;*/
 import com.example.parsers.CommandLine;
 import com.example.parsers.Editor;
 import com.example.parsers.Parser;
@@ -17,7 +17,7 @@ import org.springframework.stereotype.Component;
 public class TodoListApplication {
 
     @Value("${application.commands.quit.name}")
-    private final String commandsQuitName;
+    private String commandsQuitName;
     private final CommandProcessor processor;
     private final Editor editor;
     private final Parser parser;
@@ -25,14 +25,15 @@ public class TodoListApplication {
     public void run() {
 
         log.info("Программа запущена");
+        System.out.println("Программа запущена " + commandsQuitName);
 
         CommandLine commandLine = parser.parseLine(editor.read());
 
         while (!commandsQuitName.equals(commandLine.getName())) {
             try {
-                System.out.println("Выполнение команды");
+                System.out.println("Выполнение команды в TodoListApplication " + commandLine.toString());
                 processor.executeCommand(commandLine);
-            } catch (MyException | NumberFormatException e) {
+            } catch (/*MyException | */NumberFormatException e) {
                 editor.write(e.getMessage());
                 log.error(e.getMessage());
             }
@@ -40,5 +41,6 @@ public class TodoListApplication {
         }
 
         log.info("Программа завершена");
+        System.out.println("Программа завершена " + commandLine.toString());
     }
 }

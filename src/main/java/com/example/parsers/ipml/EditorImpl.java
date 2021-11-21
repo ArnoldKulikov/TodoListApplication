@@ -2,12 +2,14 @@ package com.example.parsers.ipml;
 
 import com.example.parsers.Editor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Component;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
 @Slf4j
+@Component
 public class EditorImpl implements Editor {
 
     public String read() {

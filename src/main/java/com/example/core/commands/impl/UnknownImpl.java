@@ -2,7 +2,7 @@ package com.example.core.commands.impl;
 
 import com.example.core.commands.Command;
 import com.example.data.TaskListRepository;
-import com.example.exeption.MyException;
+import com.example.data.dictionaries.ErrorList;
 import com.example.parsers.CommandLine;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -17,17 +17,27 @@ import org.springframework.stereotype.Component;
 public class UnknownImpl implements Command {
 
     @Value("${application.commands.unknown.name}")
-    private final String commandName;
+    private String commandName;
     private final TaskListRepository taskListRepository;
+    private final ErrorList errorList;
 
     @Override
-    public void execute(CommandLine commandLine) throws MyException {
+    public void execute(CommandLine commandLine) {
+        String message = errorList.getErrorList().get(commandName);
+        System.out.println(message);
+        log.error(message);
         log.debug(taskListRepository.getAllTasks().toString());
-        throw new MyException(commandName);
     }
 
     @Override
     public boolean checkCommand(String command) {
         return true;
+    }
+
+    @Override
+    public String toString() {
+        return "UnknownImpl{" +
+                "commandName='" + commandName + '\'' +
+                '}';
     }
 }
