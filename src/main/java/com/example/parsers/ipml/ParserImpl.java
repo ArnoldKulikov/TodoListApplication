@@ -14,14 +14,9 @@ import java.util.regex.Pattern;
 public class ParserImpl implements Parser {
 
     private static final Pattern COMMAND_TEMPLATE = Pattern.compile("\\s*(?<name>\\w+)(?:\\s+(?<argument>(?:(?<id>\\d+)\\b)?(?<description>.*)))?");
-    private CommandLine commandLine;
-
-    @Autowired
-    public ParserImpl(CommandLine commandLine) {
-        this.commandLine = commandLine;
-    }
 
     public CommandLine parseLine(String inputLine) throws NumberFormatException {
+        CommandLine commandLine = new CommandLine();
         log.debug(inputLine);
         Matcher matcher = COMMAND_TEMPLATE.matcher(inputLine);
         if (matcher.find()) {

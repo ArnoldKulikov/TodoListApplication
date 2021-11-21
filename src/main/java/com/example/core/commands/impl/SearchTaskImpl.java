@@ -1,4 +1,3 @@
-/*
 package com.example.core.commands.impl;
 
 import com.example.core.commands.Command;
@@ -19,7 +18,7 @@ import org.springframework.stereotype.Component;
 public class SearchTaskImpl implements Command {
 
     @Value("${application.commands.search.name}")
-    private final String commandName;
+    private String commandName;
     private final TaskListRepository taskListRepository;
     private final Editor editor;
 
@@ -38,4 +37,3 @@ public class SearchTaskImpl implements Command {
         return commandName.equals(command);
     }
 }
-*/

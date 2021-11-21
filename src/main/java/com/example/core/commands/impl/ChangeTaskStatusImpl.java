@@ -18,7 +18,7 @@ import org.springframework.stereotype.Component;
 public class ChangeTaskStatusImpl implements Command {
 
     @Value("${application.commands.toggle.name}")
-    private final String commandName;
+    private String commandName;
     private final TaskListRepository taskListRepository;
 
     @Override

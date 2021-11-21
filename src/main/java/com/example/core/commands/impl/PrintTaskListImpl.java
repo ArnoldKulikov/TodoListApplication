@@ -2,8 +2,7 @@ package com.example.core.commands.impl;
 
 import com.example.core.commands.Command;
 import com.example.data.TaskListRepository;
-/*import com.example.exeption.MyException;*/
-import com.example.data.dictionaries.ErrorList;
+import com.example.exeption.MyException;
 import com.example.parsers.CommandLine;
 import com.example.data.models.Task;
 import com.example.parsers.Editor;
@@ -26,10 +25,9 @@ public class PrintTaskListImpl implements Command {
     private String commandArgName;
     private final TaskListRepository taskListRepository;
     private final Editor editor;
-    private final ErrorList errorList;
 
     @Override
-    public void execute(CommandLine commandLine) /*throws MyException*/ {
+    public void execute(CommandLine commandLine) throws MyException {
         List<Task> printingList;
         String argument = commandLine.getArgument();
 
@@ -38,10 +36,7 @@ public class PrintTaskListImpl implements Command {
         else if (commandArgName.equals(argument))
             printingList = taskListRepository.getAllTasks();
         else {
-            /*throw new MyException("unknownSubCommand");*/
-            System.out.println(errorList.getErrorList().get("emptyTaskDescription"));
-            log.debug(taskListRepository.getAllTasks().toString());
-            return;
+            throw new MyException("unknownSubCommand");
         }
         for (Task task : printingList) {
             editor.write(task.toString());

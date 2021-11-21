@@ -1,4 +1,3 @@
-/*
 package com.example.core.commands.impl;
 
 import com.example.core.commands.Command;
@@ -19,7 +18,7 @@ import org.springframework.stereotype.Component;
 public class EditTaskImpl implements Command {
 
     @Value("${application.commands.edit.name}")
-    private final String commandName;
+    private String commandName;
     private final TaskListRepository taskListRepository;
 
     @Override
@@ -30,12 +29,12 @@ public class EditTaskImpl implements Command {
         if (taskId == null) {
             throw new MyException("notTaskId");
         }
-        if (description == null) {
+        if (description == null || description.equals("")) {
             throw new MyException("emptyTaskDescription");
         }
 
         Task task = taskListRepository.getTaskById(taskId);
-        task.setDescription(description);
+        task.setDescription(description.trim());
         taskListRepository.updateTask(task);
 
         log.debug(taskListRepository.getAllTasks().toString());
@@ -46,4 +45,3 @@ public class EditTaskImpl implements Command {
         return commandName.equals(command);
     }
 }
-*/
