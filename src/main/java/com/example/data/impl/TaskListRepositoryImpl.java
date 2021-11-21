@@ -2,11 +2,10 @@ package com.example.data.impl;
 
 import com.example.data.TaskListRepository;
 import com.example.data.models.Task;
-/*import com.example.exeption.MyException;*/
+import com.example.exeption.MyException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
-
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
@@ -34,7 +33,7 @@ public class TaskListRepositoryImpl implements TaskListRepository {
         return taskList;
     }
 
-    /*@Override
+    @Override
     public Task getTaskById(Long taskId) throws MyException {
         return taskList.stream()
                 .filter(t -> t.getId().equals(taskId))
@@ -42,29 +41,27 @@ public class TaskListRepositoryImpl implements TaskListRepository {
                 .orElseThrow(() -> new MyException("taskNotFound"));
     }
 
-    @Override
+/*    @Override
     public List<Task> getTaskByDescription(String description) {
         return taskList.stream()
                 .filter(t -> t.getDescription().contains(description))
                 .collect(Collectors.toList());
-    }
-*/
+    }*/
     @Override
     public List<Task> getTaskByStatus(boolean isClosed) {
         return taskList.stream()
                 .filter(t -> t.isClosed() == isClosed)
                 .collect(Collectors.toList());
     }
-/*
-    @Override
+/*    @Override
     public void updateTask(Task task) throws MyException {
         deleteTaskById(task.getId());
         taskList.add(task);
         taskList.sort(Comparator.comparing(Task::getId));
-    }
+    }*/
 
     @Override
     public void deleteTaskById(Long taskId) throws MyException {
         taskList.remove(getTaskById(taskId));
-    }*/
+    }
 }

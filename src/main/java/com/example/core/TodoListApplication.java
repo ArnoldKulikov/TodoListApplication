@@ -1,6 +1,6 @@
 package com.example.core;
 
-/*import com.example.exeption.MyException;*/
+import com.example.exeption.MyException;
 import com.example.parsers.CommandLine;
 import com.example.parsers.Editor;
 import com.example.parsers.Parser;
@@ -33,7 +33,7 @@ public class TodoListApplication {
             try {
                 System.out.println("Выполнение команды в TodoListApplication " + commandLine.toString());
                 processor.executeCommand(commandLine);
-            } catch (/*MyException | */NumberFormatException e) {
+            } catch (MyException | NumberFormatException e) {
                 editor.write(e.getMessage());
                 log.error(e.getMessage());
             }
@@ -41,6 +41,5 @@ public class TodoListApplication {
         }
 
         log.info("Программа завершена");
-        System.out.println("Программа завершена " + commandLine.toString());
     }
 }

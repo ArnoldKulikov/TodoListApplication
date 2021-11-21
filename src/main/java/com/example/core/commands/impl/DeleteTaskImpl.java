@@ -1,4 +1,3 @@
-/*
 package com.example.core.commands.impl;
 
 import com.example.core.commands.Command;
@@ -18,7 +17,7 @@ import org.springframework.stereotype.Component;
 public class DeleteTaskImpl implements Command {
 
     @Value("${application.commands.delete.name}")
-    private final String commandName;
+    private String commandName;
     private final TaskListRepository taskListRepository;
 
     @Override
@@ -39,4 +38,3 @@ public class DeleteTaskImpl implements Command {
         return commandName.equals(command);
     }
 }
-*/

@@ -16,4 +16,4 @@ application:
     search:
       name: search
     unknown:
-      name: unknown
+      name: unknownCommand

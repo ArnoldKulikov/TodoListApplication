@@ -8,7 +8,7 @@ import java.util.Map;
 public class ErrorList {
 
     private final Map<String, String> errorList = Map.of(
-            "unknown", "Некорректная команда",
+            "unknownCommand", "Некорректная команда",
             "taskNotFound", "Задача не найдена",
             "unknownError", "Неизвестная ошибка",
             "unknownSubCommand", "Некорректный аргумент команды",
