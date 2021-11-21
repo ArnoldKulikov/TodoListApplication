@@ -25,13 +25,11 @@ public class TodoListApplication {
     public void run() {
 
         log.info("Программа запущена");
-        System.out.println("Программа запущена " + commandsQuitName);
 
         CommandLine commandLine = parser.parseLine(editor.read());
 
         while (!commandsQuitName.equals(commandLine.getName())) {
             try {
-                System.out.println("Выполнение команды в TodoListApplication " + commandLine.toString());
                 processor.executeCommand(commandLine);
             } catch (MyException | NumberFormatException e) {
                 editor.write(e.getMessage());
