@@ -3,19 +3,26 @@ package com.example.core.commands.impl;
 import com.example.core.commands.Command;
 import com.example.data.TaskListRepository;
 import com.example.exeption.MyException;
-import com.example.data.impl.TaskListRepositoryImpl;
 import com.example.parsers.CommandLine;
 import com.example.data.models.Task;
 import com.example.parsers.Editor;
-import com.example.parsers.Parser;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
 import java.util.List;
 
 @Slf4j
+@Component
+@RequiredArgsConstructor
 public class PrintTaskListImpl implements Command {
 
-    private TaskListRepository taskListRepository = new TaskListRepositoryImpl();
+    @Value("${application.commands.print.name:print}")
+    private String commandName;
+    @Value("${application.commands.print.arg:all}")
+    private String commandArgName;
+    private final TaskListRepository taskListRepository;
+    private final Editor editor;
 
     @Override
     public void execute(CommandLine commandLine) throws MyException {
@@ -24,13 +31,13 @@ public class PrintTaskListImpl implements Command {
 
         if (argument == null)
             printingList = taskListRepository.getTaskByStatus(false);
-        else if ("all".equals(argument))
+        else if (commandArgName.equals(argument))
             printingList = taskListRepository.getAllTasks();
         else {
             throw new MyException("unknownSubCommand");
         }
         for (Task task : printingList) {
-            Editor.write(task.toString());
+            editor.write(task.toString());
         }
 
         log.debug(taskListRepository.getAllTasks().toString());
@@ -38,6 +45,6 @@ public class PrintTaskListImpl implements Command {
 
     @Override
     public boolean checkCommand(String command) {
-        return "print".equals(command);
+        return commandName.equals(command);
     }
 }

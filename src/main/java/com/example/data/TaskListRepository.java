@@ -2,7 +2,6 @@ package com.example.data;
 
 import com.example.data.models.Task;
 import com.example.exeption.MyException;
-
 import java.util.List;
 
 public interface TaskListRepository {

@@ -8,4 +8,5 @@ public interface Command {
     void execute(CommandLine commandLine) throws MyException;
 
     boolean checkCommand(String command);
+
 }

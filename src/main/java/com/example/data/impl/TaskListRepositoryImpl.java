@@ -3,16 +3,18 @@ package com.example.data.impl;
 import com.example.data.TaskListRepository;
 import com.example.data.models.Task;
 import com.example.exeption.MyException;
+import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
+@Component
 public class TaskListRepositoryImpl implements TaskListRepository {
 
-    private static Long nextTaskId = 1L;
-    private static final List<Task> taskList = new ArrayList<>();
+    private Long nextTaskId = 1L;
+    private final List<Task> taskList = new ArrayList<Task>();
 
     @Override
     public void createTask(Task task) {
@@ -38,7 +40,6 @@ public class TaskListRepositoryImpl implements TaskListRepository {
                 .filter(t -> t.getDescription().contains(description))
                 .collect(Collectors.toList());
     }
-
     @Override
     public List<Task> getTaskByStatus(boolean isClosed) {
         return taskList.stream()

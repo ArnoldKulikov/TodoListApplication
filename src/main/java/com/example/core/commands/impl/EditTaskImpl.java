@@ -3,15 +3,21 @@ package com.example.core.commands.impl;
 import com.example.core.commands.Command;
 import com.example.data.TaskListRepository;
 import com.example.exeption.MyException;
-import com.example.data.impl.TaskListRepositoryImpl;
 import com.example.parsers.CommandLine;
 import com.example.data.models.Task;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
 
 @Slf4j
+@Component
+@RequiredArgsConstructor
 public class EditTaskImpl implements Command {
 
-    private TaskListRepository taskListRepository = new TaskListRepositoryImpl();
+    @Value("${application.commands.edit.name:edit}")
+    private String commandName;
+    private final TaskListRepository taskListRepository;
 
     @Override
     public void execute(CommandLine commandLine) throws MyException {
@@ -21,12 +27,12 @@ public class EditTaskImpl implements Command {
         if (taskId == null) {
             throw new MyException("notTaskId");
         }
-        if (description == null) {
+        if (description == null || description.equals("")) {
             throw new MyException("emptyTaskDescription");
         }
 
         Task task = taskListRepository.getTaskById(taskId);
-        task.setDescription(description);
+        task.setDescription(description.trim());
         taskListRepository.updateTask(task);
 
         log.debug(taskListRepository.getAllTasks().toString());
@@ -34,6 +40,6 @@ public class EditTaskImpl implements Command {
 
     @Override
     public boolean checkCommand(String command) {
-        return "edit".equals(command);
+        return commandName.equals(command);
     }
 }
