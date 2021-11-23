@@ -7,16 +7,14 @@ import com.example.parsers.Parser;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.stereotype.Component;
 
 @Slf4j
 @Component
-@Configuration
 @RequiredArgsConstructor
 public class TodoListApplication {
 
-    @Value("${application.commands.quit.name}")
+    @Value("${application.commands.quit.name:quit}")
     private String commandsQuitName;
     private final CommandProcessor processor;
     private final Editor editor;

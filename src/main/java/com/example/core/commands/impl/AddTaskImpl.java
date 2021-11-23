@@ -8,16 +8,14 @@ import com.example.parsers.CommandLine;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.stereotype.Component;
 
 @Slf4j
 @Component
-@Configuration
 @RequiredArgsConstructor
 public class AddTaskImpl implements Command {
 
-    @Value("${application.commands.add.name}")
+    @Value("${application.commands.add.name:add}")
     private String commandName;
     private final TaskListRepository taskListRepository;
 

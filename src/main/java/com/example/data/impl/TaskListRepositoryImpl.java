@@ -3,8 +3,6 @@ package com.example.data.impl;
 import com.example.data.TaskListRepository;
 import com.example.data.models.Task;
 import com.example.exeption.MyException;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
@@ -15,14 +13,8 @@ import java.util.stream.Collectors;
 @Component
 public class TaskListRepositoryImpl implements TaskListRepository {
 
-    private Long nextTaskId;
-    private final List<Task> taskList;
-
-    @Autowired
-    public TaskListRepositoryImpl(@Value("1") Long nextTaskId, ArrayList<Task> taskList) {
-        this.nextTaskId = nextTaskId;
-        this.taskList = taskList;
-    }
+    private Long nextTaskId = 1L;
+    private final List<Task> taskList = new ArrayList<Task>();
 
     @Override
     public void createTask(Task task) {

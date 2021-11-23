@@ -7,16 +7,14 @@ import com.example.parsers.CommandLine;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.stereotype.Component;
 
 @Slf4j
 @Component
-@Configuration
 @RequiredArgsConstructor
 public class DeleteTaskImpl implements Command {
 
-    @Value("${application.commands.delete.name}")
+    @Value("${application.commands.delete.name:delete}")
     private String commandName;
     private final TaskListRepository taskListRepository;
 

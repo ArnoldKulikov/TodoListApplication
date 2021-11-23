@@ -5,15 +5,13 @@ import com.example.exeption.MyException;
 import com.example.parsers.CommandLine;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.stereotype.Component;
 
 @Slf4j
 @Component
-@Configuration
 public class UnknownImpl implements Command {
 
-    @Value("${application.commands.unknown.name}")
+    @Value("${application.commands.unknown.name:unknownCommand}")
     private String commandName;
 
     @Override

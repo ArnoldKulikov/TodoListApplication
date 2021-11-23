@@ -9,19 +9,17 @@ import com.example.parsers.Editor;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.stereotype.Component;
 import java.util.List;
 
 @Slf4j
 @Component
-@Configuration
 @RequiredArgsConstructor
 public class PrintTaskListImpl implements Command {
 
-    @Value("${application.commands.print.name}")
+    @Value("${application.commands.print.name:print}")
     private String commandName;
-    @Value("${application.commands.print.arg}")
+    @Value("${application.commands.print.arg:all}")
     private String commandArgName;
     private final TaskListRepository taskListRepository;
     private final Editor editor;
