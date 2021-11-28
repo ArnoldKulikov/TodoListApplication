@@ -11,7 +11,7 @@ public class DefaultAdvice {
 
     @ExceptionHandler(MyException.class)
     public ResponseEntity<ErrorDto> handleException(MyException e) {
-/*        ErrorDto error = new ErrorDto("Bad Request", e.getMessage());*/
-        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        ErrorDto error = new ErrorDto("Bad Request", e.getMessage());
+        return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
     }
 }
