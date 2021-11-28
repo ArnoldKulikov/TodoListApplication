@@ -1,7 +1,7 @@
 package com.example.data.impl;
 
 import com.example.data.TaskListRepository;
-import com.example.data.models.Task;
+import com.example.data.models.TaskDto;
 import com.example.exeption.MyException;
 import org.springframework.stereotype.Component;
 
@@ -14,48 +14,51 @@ import java.util.stream.Collectors;
 public class TaskListRepositoryImpl implements TaskListRepository {
 
     private Long nextTaskId = 1L;
-    private final List<Task> taskList = new ArrayList<Task>();
+    private final List<TaskDto> taskDtoList = new ArrayList<TaskDto>();
 
     @Override
-    public void createTask(Task task) {
-        taskList.add(task.setId(nextTaskId++));
+    public void createTask(TaskDto taskDto) {
+        taskDtoList.add(taskDto.setId(nextTaskId++));
     }
 
     @Override
-    public List<Task> getAllTasks() {
-        return taskList;
+    public List<TaskDto> getAllTasks() {
+        return taskDtoList;
     }
 
     @Override
-    public Task getTaskById(Long taskId) throws MyException {
-        return taskList.stream()
+    public TaskDto getTaskById(Long taskId) throws MyException {
+        return taskDtoList.stream()
                 .filter(t -> t.getId().equals(taskId))
                 .findFirst()
                 .orElseThrow(() -> new MyException("taskNotFound"));
     }
 
     @Override
-    public List<Task> getTaskByDescription(String description) {
-        return taskList.stream()
+    public List<TaskDto> getTaskByDescription(String description) {
+        return taskDtoList.stream()
                 .filter(t -> t.getDescription().contains(description))
                 .collect(Collectors.toList());
     }
     @Override
-    public List<Task> getTaskByStatus(boolean isClosed) {
-        return taskList.stream()
+    public List<TaskDto> getTaskByStatus(boolean isClosed) {
+        return taskDtoList.stream()
                 .filter(t -> t.isClosed() == isClosed)
                 .collect(Collectors.toList());
     }
 
     @Override
-    public void updateTask(Task task) throws MyException {
-        deleteTaskById(task.getId());
-        taskList.add(task);
-        taskList.sort(Comparator.comparing(Task::getId));
+    public void updateTask(TaskDto taskDto) throws MyException {
+        deleteTaskById(taskDto.getId());
+        taskDtoList.add(taskDto);
+        taskDtoList.sort(Comparator.comparing(TaskDto::getId));
     }
 
     @Override
-    public void deleteTaskById(Long taskId) throws MyException {
-        taskList.remove(getTaskById(taskId));
+    public void deleteTaskById(Long taskId) {
+        try {
+            taskDtoList.remove(getTaskById(taskId));
+        } catch (MyException ignored) {
+        }
     }
 }

@@ -1,8 +1,9 @@
+/*
 package com.example.core.commands.impl;
 
 import com.example.core.commands.Command;
 import com.example.data.TaskListRepository;
-import com.example.data.models.Task;
+import com.example.data.models.TaskDto;
 import com.example.parsers.CommandLine;
 import com.example.parsers.Editor;
 import lombok.RequiredArgsConstructor;
@@ -23,8 +24,8 @@ public class SearchTaskImpl implements Command {
     @Override
     public void execute(CommandLine commandLine) {
         if (commandLine.getDescription() != null) {
-            for (Task task : taskListRepository.getTaskByDescription(commandLine.getDescription())) {
-                editor.write(task.toString());
+            for (TaskDto taskDto : taskListRepository.getTaskByDescription(commandLine.getDescription())) {
+                editor.write(taskDto.toString());
             }
         }
         log.debug(taskListRepository.getAllTasks().toString());
@@ -35,3 +36,4 @@ public class SearchTaskImpl implements Command {
         return commandName.equals(command);
     }
 }
+*/

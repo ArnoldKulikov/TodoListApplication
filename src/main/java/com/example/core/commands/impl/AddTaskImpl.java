@@ -1,8 +1,9 @@
+/*
 package com.example.core.commands.impl;
 
 import com.example.core.commands.Command;
 import com.example.data.TaskListRepository;
-import com.example.data.models.Task;
+import com.example.data.models.TaskDto;
 import com.example.exeption.MyException;
 import com.example.parsers.CommandLine;
 import lombok.RequiredArgsConstructor;
@@ -27,11 +28,11 @@ public class AddTaskImpl implements Command {
             throw new MyException("emptyTaskDescription");
         }
 
-        Task task = new Task()
+        TaskDto taskDto = new TaskDto()
                 .setClosed(false)
                 .setDescription(description);
 
-        taskListRepository.createTask(task);
+        taskListRepository.createTask(taskDto);
 
         log.debug(taskListRepository.getAllTasks().toString());
     }
@@ -41,3 +42,4 @@ public class AddTaskImpl implements Command {
         return commandName.equals(command);
     }
 }
+*/

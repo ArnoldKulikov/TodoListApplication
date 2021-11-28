@@ -2,7 +2,7 @@ package com.example.core.commands.impl;
 
 import com.example.core.commands.Command;
 import com.example.data.TaskListRepository;
-import com.example.data.models.Task;
+import com.example.data.models.TaskDto;
 import com.example.exeption.MyException;
 import com.example.parsers.CommandLine;
 import lombok.RequiredArgsConstructor;
@@ -27,9 +27,9 @@ public class ChangeTaskStatusImpl implements Command {
             throw new MyException("notTaskId");
         }
 
-        Task task = taskListRepository.getTaskById(taskId);
-        task.setClosed(!task.isClosed());
-        taskListRepository.updateTask(task);
+        TaskDto taskDto = taskListRepository.getTaskById(taskId);
+        taskDto.setClosed(!taskDto.isClosed());
+        taskListRepository.updateTask(taskDto);
 
         log.debug(taskListRepository.getAllTasks().toString());
     }

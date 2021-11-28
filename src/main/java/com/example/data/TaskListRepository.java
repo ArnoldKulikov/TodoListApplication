@@ -1,22 +1,22 @@
 package com.example.data;
 
-import com.example.data.models.Task;
+import com.example.data.models.TaskDto;
 import com.example.exeption.MyException;
 import java.util.List;
 
 public interface TaskListRepository {
 
-    void createTask(Task task);
+    void createTask(TaskDto taskDto);
 
-    List<Task> getAllTasks();
+    List<TaskDto> getAllTasks();
 
-    Task getTaskById(Long taskId) throws MyException;
+    TaskDto getTaskById(Long taskId) throws MyException;
 
-    List<Task> getTaskByDescription(String description);
+    List<TaskDto> getTaskByDescription(String description);
 
-    List<Task> getTaskByStatus(boolean isClosed);
+    List<TaskDto> getTaskByStatus(boolean isClosed);
 
-    void updateTask(Task task) throws MyException;
+    void updateTask(TaskDto taskDto) throws MyException;
 
     void deleteTaskById(Long taskId) throws MyException;
 

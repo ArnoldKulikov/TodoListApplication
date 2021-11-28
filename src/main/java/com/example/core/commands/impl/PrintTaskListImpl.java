@@ -1,10 +1,11 @@
+/*
 package com.example.core.commands.impl;
 
 import com.example.core.commands.Command;
 import com.example.data.TaskListRepository;
+import com.example.data.models.TaskDto;
 import com.example.exeption.MyException;
 import com.example.parsers.CommandLine;
-import com.example.data.models.Task;
 import com.example.parsers.Editor;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -26,7 +27,7 @@ public class PrintTaskListImpl implements Command {
 
     @Override
     public void execute(CommandLine commandLine) throws MyException {
-        List<Task> printingList;
+        List<TaskDto> printingList;
         String argument = commandLine.getArgument();
 
         if (argument == null)
@@ -36,8 +37,8 @@ public class PrintTaskListImpl implements Command {
         else {
             throw new MyException("unknownSubCommand");
         }
-        for (Task task : printingList) {
-            editor.write(task.toString());
+        for (TaskDto taskDto : printingList) {
+            editor.write(taskDto.toString());
         }
 
         log.debug(taskListRepository.getAllTasks().toString());
@@ -48,3 +49,4 @@ public class PrintTaskListImpl implements Command {
         return commandName.equals(command);
     }
 }
+*/

@@ -1,3 +1,4 @@
+/*
 package com.example.core.commands.impl;
 
 import com.example.core.commands.Command;
@@ -24,3 +25,4 @@ public class UnknownImpl implements Command {
         return true;
     }
 }
+*/
