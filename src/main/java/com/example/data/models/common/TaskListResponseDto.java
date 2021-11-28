@@ -9,9 +9,9 @@ import java.util.List;
 public class TaskListResponseDto {
 
     @NotNull
-    private List<TaskDto> taskList;
+    private List<TaskDto> tasks;
 
     public TaskListResponseDto(@NotNull List<TaskDto> taskList) {
-        this.taskList = taskList;
+        this.tasks = taskList;
     }
 }

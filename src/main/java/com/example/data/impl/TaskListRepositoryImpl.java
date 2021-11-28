@@ -49,17 +49,15 @@ public class TaskListRepositoryImpl implements TaskListRepository {
     }
 
     @Override
-    public void updateTask(TaskDto taskDto) {
+    public void updateTask(TaskDto taskDto) throws MyException {
         deleteTaskById(taskDto.getId());
         taskListRepositoryImpl.add(taskDto);
         taskListRepositoryImpl.sort(Comparator.comparing(TaskDto::getId));
     }
 
     @Override
-    public void deleteTaskById(Long taskId) {
-        try {
+    public void deleteTaskById(Long taskId) throws MyException {
             taskListRepositoryImpl.remove(getTaskById(taskId));
-        } catch (MyException ignored) {
-        }
+
     }
 }

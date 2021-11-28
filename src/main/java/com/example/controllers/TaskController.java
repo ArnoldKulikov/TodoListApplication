@@ -21,7 +21,7 @@ public class TaskController {
 
     private final TaskListRepository taskListRepository;
 
-    @PostMapping("/taskList")
+    @PostMapping("/task")
     public CreateTaskResponseDto createTask(@Valid @RequestBody CreateTaskRequestDto task) {
         TaskDto localTask = new TaskDto()
                 .setClosed(false)
@@ -32,27 +32,27 @@ public class TaskController {
         return new CreateTaskResponseDto(localTask);
     }
 
-    @GetMapping("/taskList")
+    @GetMapping("/task/open")
     public GetTaskListResponseDto getTaskList() {
         log.debug(taskListRepository.getAllTasks().toString());
         return new GetTaskListResponseDto(taskListRepository.getTaskByStatus(false));
     }
 
-    @GetMapping("/taskList/all")
+    @GetMapping("/task/all")
     public GetTaskListAllResponseDto getTaskListAll() {
         log.debug(taskListRepository.getAllTasks().toString());
         return new GetTaskListAllResponseDto(taskListRepository.getAllTasks());
     }
 
-    @GetMapping("/taskList/search")
+    @GetMapping("/task/search")
     public GetTaskListBySearchResponseDto getTaskListBySearch(
-            @RequestParam(value = "search") @NotNull String searchText
+            @RequestParam("search") @NotNull String searchText
     ) {
         log.debug(taskListRepository.getAllTasks().toString());
         return new GetTaskListBySearchResponseDto(taskListRepository.getTaskByDescription(searchText));
     }
 
-    @PatchMapping("/taskList/{task_id}")
+    @PatchMapping("/task/{task_id}")
     public ChangeTaskResponseDto changeTask(
             @PathVariable("task_id") @NonNull Long taskId,
             @Valid @RequestBody ChangeTaskRequestDto task) throws MyException {
@@ -64,7 +64,7 @@ public class TaskController {
         return new ChangeTaskResponseDto(localTask);
     }
 
-    @DeleteMapping("/taskList/{task_id}")
+    @DeleteMapping("/task/{task_id}")
     public void deleteTask(@PathVariable("task_id") @NonNull Long taskId) throws MyException {
         taskListRepository.deleteTaskById(taskId);
         log.debug(taskListRepository.getAllTasks().toString());
