@@ -13,8 +13,8 @@ import java.util.stream.Collectors;
 @Component
 public class TaskListRepositoryImpl implements TaskListRepository {
 
-    private Long nextTaskId = 1L;
     private final List<TaskDto> taskDtoList = new ArrayList<TaskDto>();
+    private Long nextTaskId = 1L;
 
     @Override
     public void createTask(TaskDto taskDto) {
@@ -40,6 +40,7 @@ public class TaskListRepositoryImpl implements TaskListRepository {
                 .filter(t -> t.getDescription().contains(description))
                 .collect(Collectors.toList());
     }
+
     @Override
     public List<TaskDto> getTaskByStatus(boolean isClosed) {
         return taskDtoList.stream()
@@ -48,7 +49,7 @@ public class TaskListRepositoryImpl implements TaskListRepository {
     }
 
     @Override
-    public void updateTask(TaskDto taskDto) throws MyException {
+    public void updateTask(TaskDto taskDto) {
         deleteTaskById(taskDto.getId());
         taskDtoList.add(taskDto);
         taskDtoList.sort(Comparator.comparing(TaskDto::getId));

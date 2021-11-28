@@ -50,6 +50,18 @@ public class TaskController {
         return taskListRepository.getTaskByDescription(searchText);
     }
 
+    @PatchMapping("/taskList/{task_id}")
+    public TaskDto changeTask(
+            @PathVariable("task_id") @NonNull Long taskId,
+            @Valid @RequestBody TaskDto task) throws MyException {
+        TaskDto taskDto = taskListRepository.getTaskById(taskId);
+        taskDto.setClosed(task.isClosed());
+        taskDto.setDescription(task.getDescription());
+        taskListRepository.updateTask(taskDto);
+        log.debug(taskListRepository.getAllTasks().toString());
+        return taskDto;
+    }
+
     @DeleteMapping("/taskList/{task_id}")
     public void deleteTask(@PathVariable("task_id") @NonNull Long taskId) throws MyException {
         taskListRepository.deleteTaskById(taskId);

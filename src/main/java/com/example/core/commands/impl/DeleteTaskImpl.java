@@ -1,3 +1,4 @@
+/*
 package com.example.core.commands.impl;
 
 import com.example.core.commands.Command;
@@ -36,3 +37,4 @@ public class DeleteTaskImpl implements Command {
         return commandName.equals(command);
     }
 }
+*/
