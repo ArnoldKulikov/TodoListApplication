@@ -1,7 +1,10 @@
 package com.example.controllers;
 
 import com.example.data.TaskListRepository;
-import com.example.data.models.TaskDto;
+import com.example.data.models.common.TaskDto;
+import com.example.data.models.request.ChangeTaskRequestDto;
+import com.example.data.models.request.CreateTaskRequestDto;
+import com.example.data.models.response.*;
 import com.example.exeption.MyException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -10,7 +13,6 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
-import java.util.List;
 
 @Slf4j
 @RestController
@@ -20,46 +22,46 @@ public class TaskController {
     private final TaskListRepository taskListRepository;
 
     @PostMapping("/taskList")
-    public TaskDto createTask(@Valid @RequestBody TaskDto task) {
+    public CreateTaskResponseDto createTask(@Valid @RequestBody CreateTaskRequestDto task) {
         TaskDto localTask = new TaskDto()
                 .setClosed(false)
                 .setDescription(task.getDescription());
 
         taskListRepository.createTask(localTask);
         log.debug(taskListRepository.getAllTasks().toString());
-        return localTask;
+        return new CreateTaskResponseDto(localTask);
     }
 
     @GetMapping("/taskList")
-    public List<TaskDto> getTaskList() {
+    public GetTaskListResponseDto getTaskList() {
         log.debug(taskListRepository.getAllTasks().toString());
-        return taskListRepository.getTaskByStatus(false);
+        return new GetTaskListResponseDto(taskListRepository.getTaskByStatus(false));
     }
 
     @GetMapping("/taskList/all")
-    public List<TaskDto> getAllTaskList() {
+    public GetTaskListAllResponseDto getTaskListAll() {
         log.debug(taskListRepository.getAllTasks().toString());
-        return taskListRepository.getAllTasks();
+        return new GetTaskListAllResponseDto(taskListRepository.getAllTasks());
     }
 
     @GetMapping("/taskList/search")
-    public List<TaskDto> getTaskListByDescription(
-            @RequestParam(value = "search", required = true) @NotNull String searchText
+    public GetTaskListBySearchResponseDto getTaskListBySearch(
+            @RequestParam(value = "search") @NotNull String searchText
     ) {
         log.debug(taskListRepository.getAllTasks().toString());
-        return taskListRepository.getTaskByDescription(searchText);
+        return new GetTaskListBySearchResponseDto(taskListRepository.getTaskByDescription(searchText));
     }
 
     @PatchMapping("/taskList/{task_id}")
-    public TaskDto changeTask(
+    public ChangeTaskResponseDto changeTask(
             @PathVariable("task_id") @NonNull Long taskId,
-            @Valid @RequestBody TaskDto task) throws MyException {
-        TaskDto taskDto = taskListRepository.getTaskById(taskId);
-        taskDto.setClosed(task.isClosed());
-        taskDto.setDescription(task.getDescription());
-        taskListRepository.updateTask(taskDto);
+            @Valid @RequestBody ChangeTaskRequestDto task) throws MyException {
+        TaskDto localTask = taskListRepository.getTaskById(taskId);
+        localTask.setClosed(task.isClosed());
+        localTask.setDescription(task.getDescription());
+        taskListRepository.updateTask(localTask);
         log.debug(taskListRepository.getAllTasks().toString());
-        return taskDto;
+        return new ChangeTaskResponseDto(localTask);
     }
 
     @DeleteMapping("/taskList/{task_id}")

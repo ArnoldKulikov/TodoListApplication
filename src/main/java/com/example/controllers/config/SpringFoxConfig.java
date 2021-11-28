@@ -1,4 +1,4 @@
-package com.example.controllers;
+package com.example.controllers.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

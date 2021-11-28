@@ -1,21 +1,23 @@
-package com.example.data.models;
+package com.example.data.models.common;
 
 import lombok.Data;
 import lombok.experimental.Accessors;
 
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
 @Data
 @Accessors(chain = true)
 public class TaskDto {
 
-    private Long id;
-    private boolean isClosed;
     @NotBlank
+    @NotNull
+    private Long id;
+    @NotBlank
+    @NotNull
+    private boolean closed;
+    @NotBlank
+    @NotNull
     private String description;
 
-    @Override
-    public String toString() {
-        return id + ". " + (isClosed ? "[x]" : "[ ]") + " " + description;
-    }
 }

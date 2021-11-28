@@ -1,6 +1,6 @@
 package com.example.data;
 
-import com.example.data.models.TaskDto;
+import com.example.data.models.common.TaskDto;
 import com.example.exeption.MyException;
 
 import java.util.List;
@@ -15,7 +15,7 @@ public interface TaskListRepository {
 
     List<TaskDto> getTaskByDescription(String description);
 
-    List<TaskDto> getTaskByStatus(boolean isClosed);
+    List<TaskDto> getTaskByStatus(boolean closed);
 
     void updateTask(TaskDto taskDto) throws MyException;
 
