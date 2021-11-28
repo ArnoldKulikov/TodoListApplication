@@ -1,6 +1,6 @@
-package com.example;
+package com.example.exeption;
 
-import com.example.exeption.MyException;
+import com.example.data.models.ErrorDto;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;

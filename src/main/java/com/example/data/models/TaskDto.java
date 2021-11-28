@@ -2,6 +2,7 @@ package com.example.data.models;
 
 import lombok.Data;
 import lombok.experimental.Accessors;
+
 import javax.validation.constraints.NotBlank;
 
 @Data

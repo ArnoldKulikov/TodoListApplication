@@ -1,4 +1,4 @@
-package com.example;
+package com.example.data.models;
 
 import lombok.Getter;
 import org.springframework.web.bind.annotation.ResponseBody;

@@ -1,4 +1,4 @@
-package com.example;
+package com.example.controllers;
 
 import com.example.data.TaskListRepository;
 import com.example.data.models.TaskDto;
