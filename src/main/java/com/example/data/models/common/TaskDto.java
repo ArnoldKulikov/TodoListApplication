@@ -2,6 +2,7 @@ package com.example.data.models.common;
 
 import lombok.Data;
 import lombok.experimental.Accessors;
+import org.springframework.stereotype.Component;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
@@ -20,4 +21,9 @@ public class TaskDto {
     @NotNull
     private String description;
 
+    public TaskDto taskServices(String description) {
+        return new TaskDto()
+                .setClosed(false)
+                .setDescription(description);
+    }
 }

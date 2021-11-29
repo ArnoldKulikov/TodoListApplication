@@ -1,15 +1,12 @@
 package com.example.data.models.common;
 
 import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 
 @Getter
+@RequiredArgsConstructor
 public class ErrorDto {
-    private String errorCode;
-    private String message;
-
-    public ErrorDto(String errorCode, String message) {
-        this.errorCode = errorCode;
-        this.message = message;
-    }
+    private final String errorCode;
+    private final String message;
 
 }

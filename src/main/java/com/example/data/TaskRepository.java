@@ -5,7 +5,7 @@ import com.example.exeption.MyException;
 
 import java.util.List;
 
-public interface TaskListRepository {
+public interface TaskRepository {
 
     void createTask(TaskDto taskDto);
 
@@ -13,7 +13,7 @@ public interface TaskListRepository {
 
     TaskDto getTaskById(Long taskId) throws MyException;
 
-    List<TaskDto> getTaskByDescription(String description);
+    List<TaskDto> search(String description);
 
     List<TaskDto> getTaskByStatus(boolean closed);
 
