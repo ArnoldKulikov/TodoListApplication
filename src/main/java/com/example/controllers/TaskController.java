@@ -37,13 +37,17 @@ public class TaskController {
 
     @GetMapping
     public TaskListResponseDto getTaskList() {
-        log.debug(taskRepository.getAllTasks().toString());
+        if (log.isDebugEnabled()) {
+            log.debug(taskRepository.getAllTasks().toString());
+        }
         return new TaskListResponseDto(taskRepository.getTaskByStatus(false));
     }
 
     @GetMapping("/all")
     public TaskListResponseDto getTaskListAll() {
-        log.debug(taskRepository.getAllTasks().toString());
+        if (log.isDebugEnabled()) {
+            log.debug(taskRepository.getAllTasks().toString());
+        }
         return new TaskListResponseDto(taskRepository.getAllTasks());
     }
 
@@ -51,7 +55,9 @@ public class TaskController {
     public TaskListResponseDto getTaskListBySearch(
             @RequestParam("search") @NotNull String searchText
     ) {
-        log.debug(taskRepository.getAllTasks().toString());
+        if (log.isDebugEnabled()) {
+            log.debug(taskRepository.getAllTasks().toString());
+        }
         return new TaskListResponseDto(taskRepository.search(searchText));
     }
 
@@ -60,16 +66,20 @@ public class TaskController {
             @PathVariable("task_id") @NonNull Long taskId,
             @Valid @RequestBody ChangeTaskRequestDto task) throws MyException {
         TaskDto localTask = taskRepository.getTaskById(taskId);
-        if (task.isClosed() || !task.isClosed()) localTask.setClosed(task.isClosed());
+        if (task.getClosed() != null) localTask.setClosed(task.getClosed());
         if (task.getDescription() != null) localTask.setDescription(task.getDescription());
         taskRepository.updateTask(localTask);
-        log.debug(taskRepository.getAllTasks().toString());
+        if (log.isDebugEnabled()) {
+            log.debug(taskRepository.getAllTasks().toString());
+        }
         return new TaskResponseDto(localTask);
     }
 
     @DeleteMapping("/{task_id}")
     public void deleteTask(@PathVariable("task_id") @NonNull Long taskId) throws MyException {
         taskRepository.deleteTaskById(taskId);
-        log.debug(taskRepository.getAllTasks().toString());
+        if (log.isDebugEnabled()) {
+            log.debug(taskRepository.getAllTasks().toString());
+        }
     }
 }

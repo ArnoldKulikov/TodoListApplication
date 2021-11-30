@@ -16,7 +16,7 @@ public class TaskDto {
     private Long id;
     @NotBlank
     @NotNull
-    private boolean closed;
+    private Boolean closed;
     @NotBlank
     @NotNull
     private String description;

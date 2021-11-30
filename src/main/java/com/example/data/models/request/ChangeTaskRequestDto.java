@@ -9,6 +9,6 @@ import javax.validation.constraints.NotNull;
 public class ChangeTaskRequestDto {
 
     private String description;
-    private boolean closed;
+    private Boolean closed;
 
 }

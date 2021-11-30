@@ -45,7 +45,7 @@ public class TaskRepositoryImpl implements TaskRepository {
     @Override
     public List<TaskDto> getTaskByStatus(boolean closed) {
         return data.stream()
-                .filter(t -> t.isClosed() == closed)
+                .filter(t -> t.getClosed() == closed)
                 .collect(Collectors.toList());
     }
 
