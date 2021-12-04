@@ -1,24 +1,14 @@
 package com.example.data;
 
 import com.example.data.models.common.TaskDto;
-import com.example.exeption.MyException;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
 
-public interface TaskRepository {
+public interface TaskRepository extends JpaRepository<TaskDto, Long> {
 
-    void createTask(TaskDto taskDto);
+    List<TaskDto> findByClosed(Boolean Closed, Sort sort);
 
-    List<TaskDto> getAllTasks();
-
-    TaskDto getTaskById(Long taskId) throws MyException;
-
-    List<TaskDto> search(String description);
-
-    List<TaskDto> getTaskByStatus(boolean closed);
-
-    void updateTask(TaskDto taskDto) throws MyException;
-
-    void deleteTaskById(Long taskId) throws MyException;
-
+    List<TaskDto> findByDescription(String Description, Sort sort);
 }
