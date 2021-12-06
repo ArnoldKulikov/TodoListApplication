@@ -7,10 +7,9 @@ import com.example.data.models.common.TaskResponseDto;
 import com.example.data.models.request.ChangeTaskRequestDto;
 import com.example.data.models.request.CreateTaskRequestDto;
 import com.example.exeption.MyException;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
-import org.springframework.data.domain.Sort;
 import org.springframework.lang.NonNull;
 import org.springframework.web.bind.annotation.*;
 
@@ -20,20 +19,20 @@ import java.util.Optional;
 
 @Slf4j
 @RestController
+@RequiredArgsConstructor
 @RequestMapping("/task")
 public class TaskController {
 
-    @Autowired
-    private TaskRepository taskRepository;
+    private final TaskRepository taskRepository;
 
     @PostMapping
     public TaskResponseDto createTask(@Valid @RequestBody CreateTaskRequestDto taskRequest) {
         TaskDto localTask = new TaskDto();
         localTask = localTask.taskServices(taskRequest.getDescription());
 
-        taskRepository.save(localTask);
+        TaskDto savedTask = taskRepository.save(localTask);
         if (log.isDebugEnabled()) {
-            log.debug(taskRepository.findById(localTask.getId()).toString());
+            log.debug(taskRepository.findById(savedTask.getId()).toString());
         }
         return new TaskResponseDto(localTask);
     }
@@ -41,17 +40,17 @@ public class TaskController {
     @GetMapping
     public TaskListResponseDto getTaskList() {
         if (log.isDebugEnabled()) {
-            log.debug(taskRepository.findAll().toString());
+            log.debug(taskRepository.findAllByOrderByIdAsc().toString());
         }
-        return new TaskListResponseDto(taskRepository.findByClosed(false, Sort.by("Id")));
+        return new TaskListResponseDto(taskRepository.findByClosedOrderByIdAsc(false));
     }
 
     @GetMapping("/all")
     public TaskListResponseDto getTaskListAll() {
         if (log.isDebugEnabled()) {
-            log.debug(taskRepository.findAll().toString());
+            log.debug(taskRepository.findAllByOrderByIdAsc().toString());
         }
-        return new TaskListResponseDto(taskRepository.findAll(Sort.by("Id")));
+        return new TaskListResponseDto(taskRepository.findAllByOrderByIdAsc());
     }
 
     @GetMapping("/search")
@@ -59,9 +58,9 @@ public class TaskController {
             @RequestParam("search") @NotNull String searchText
     ) {
         if (log.isDebugEnabled()) {
-            log.debug(taskRepository.findAll().toString());
+            log.debug(taskRepository.findAllByOrderByIdAsc().toString());
         }
-        return new TaskListResponseDto(taskRepository.findByDescription(searchText, Sort.by("Id")));
+        return new TaskListResponseDto(taskRepository.findByDescriptionContainingOrderByIdAsc(searchText));
     }
 
     @PatchMapping("/{task_id}")
@@ -75,7 +74,7 @@ public class TaskController {
             if (task.getDescription() != null) localTask.setDescription(task.getDescription());
             taskRepository.save(localTask);
             if (log.isDebugEnabled()) {
-                log.debug(taskRepository.findAll().toString());
+                log.debug(taskRepository.findAllByOrderByIdAsc().toString());
             }
             return new TaskResponseDto(localTask);
         }
@@ -86,7 +85,7 @@ public class TaskController {
     public void deleteTask(@PathVariable("task_id") @NonNull Long taskId) throws EmptyResultDataAccessException {
         taskRepository.deleteById(taskId);
         if (log.isDebugEnabled()) {
-            log.debug(taskRepository.findAll().toString());
+            log.debug(taskRepository.findAllByOrderByIdAsc().toString());
         }
     }
 }
