@@ -32,7 +32,7 @@ public class TaskController {
 
         TaskDto savedTask = taskRepository.save(localTask);
         if (log.isDebugEnabled()) {
-            log.debug(taskRepository.findById(savedTask.getId()).toString());
+            log.debug(savedTask.toString());
         }
         return new TaskResponseDto(localTask);
     }
