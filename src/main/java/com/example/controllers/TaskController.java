@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
+import java.util.List;
 import java.util.Optional;
 
 @Slf4j
@@ -47,10 +48,12 @@ public class TaskController {
 
     @GetMapping("/all")
     public TaskListResponseDto getTaskListAll() {
+        List<TaskDto> localTasks = taskRepository.findAllByOrderByIdAsc();
+
         if (log.isDebugEnabled()) {
-            log.debug(taskRepository.findAllByOrderByIdAsc().toString());
+            log.debug(localTasks.toString());
         }
-        return new TaskListResponseDto(taskRepository.findAllByOrderByIdAsc());
+        return new TaskListResponseDto(localTasks);
     }
 
     @GetMapping("/search")
