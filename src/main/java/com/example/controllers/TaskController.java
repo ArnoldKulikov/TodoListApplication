@@ -30,29 +30,17 @@ public class TaskController {
     public TaskResponseDto createTask(@Valid @RequestBody CreateTaskRequestDto taskRequest) {
         TaskDto localTask = new TaskDto();
         localTask = localTask.taskServices(taskRequest.getDescription());
-
-        TaskDto savedTask = taskRepository.save(localTask);
-        if (log.isDebugEnabled()) {
-            log.debug(savedTask.toString());
-        }
-        return new TaskResponseDto(localTask);
+        return new TaskResponseDto(taskRepository.save(localTask));
     }
 
     @GetMapping
     public TaskListResponseDto getTaskList() {
-        if (log.isDebugEnabled()) {
-            log.debug(taskRepository.findAllByOrderByIdAsc().toString());
-        }
         return new TaskListResponseDto(taskRepository.findByClosedOrderByIdAsc(false));
     }
 
     @GetMapping("/all")
     public TaskListResponseDto getTaskListAll() {
         List<TaskDto> localTasks = taskRepository.findAllByOrderByIdAsc();
-
-        if (log.isDebugEnabled()) {
-            log.debug(localTasks.toString());
-        }
         return new TaskListResponseDto(localTasks);
     }
 
@@ -60,9 +48,6 @@ public class TaskController {
     public TaskListResponseDto getTaskListBySearch(
             @RequestParam("search") @NotNull String searchText
     ) {
-        if (log.isDebugEnabled()) {
-            log.debug(taskRepository.findAllByOrderByIdAsc().toString());
-        }
         return new TaskListResponseDto(taskRepository.findByDescriptionContainingOrderByIdAsc(searchText));
     }
 
@@ -76,9 +61,6 @@ public class TaskController {
             if (task.getClosed() != null) localTask.setClosed(task.getClosed());
             if (task.getDescription() != null) localTask.setDescription(task.getDescription());
             taskRepository.save(localTask);
-            if (log.isDebugEnabled()) {
-                log.debug(taskRepository.findAllByOrderByIdAsc().toString());
-            }
             return new TaskResponseDto(localTask);
         }
         throw new MyException("taskNotFound");
@@ -87,8 +69,5 @@ public class TaskController {
     @DeleteMapping("/{task_id}")
     public void deleteTask(@PathVariable("task_id") @NonNull Long taskId) throws EmptyResultDataAccessException {
         taskRepository.deleteById(taskId);
-        if (log.isDebugEnabled()) {
-            log.debug(taskRepository.findAllByOrderByIdAsc().toString());
-        }
     }
 }
