@@ -1,15 +1,16 @@
 package com.example.data;
 
-import com.example.data.models.common.TaskDto;
+import com.example.data.models.common.Task;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
 
-public interface TaskRepository extends JpaRepository<TaskDto, Long> {
+public interface TaskRepository extends JpaRepository<Task, Long> {
 
-    List<TaskDto> findAllByOrderByIdAsc();
+    List<Task> findAllByOrderByIdAsc();
 
-    List<TaskDto> findByClosedOrderByIdAsc(Boolean closed);
+    List<Task> findByClosedOrderByIdAsc(Boolean closed);
 
-    List<TaskDto> findByDescriptionContainingOrderByIdAsc(String description);
+    List<Task> findByDescriptionContainingOrderByIdAsc(String description);
 }

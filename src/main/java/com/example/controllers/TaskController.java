@@ -1,7 +1,7 @@
 package com.example.controllers;
 
 import com.example.data.TaskRepository;
-import com.example.data.models.common.TaskDto;
+import com.example.data.models.common.Task;
 import com.example.data.models.common.TaskListResponseDto;
 import com.example.data.models.common.TaskResponseDto;
 import com.example.data.models.request.ChangeTaskRequestDto;
@@ -28,7 +28,7 @@ public class TaskController {
 
     @PostMapping
     public TaskResponseDto createTask(@Valid @RequestBody CreateTaskRequestDto taskRequest) {
-        TaskDto localTask = new TaskDto();
+        Task localTask = new Task();
         localTask = localTask.taskServices(taskRequest.getDescription());
         return new TaskResponseDto(taskRepository.save(localTask));
     }
@@ -40,7 +40,7 @@ public class TaskController {
 
     @GetMapping("/all")
     public TaskListResponseDto getTaskListAll() {
-        List<TaskDto> localTasks = taskRepository.findAllByOrderByIdAsc();
+        List<Task> localTasks = taskRepository.findAllByOrderByIdAsc();
         return new TaskListResponseDto(localTasks);
     }
 
@@ -55,9 +55,9 @@ public class TaskController {
     public TaskResponseDto changeTask(
             @PathVariable("task_id") @NonNull Long taskId,
             @Valid @RequestBody ChangeTaskRequestDto task) throws MyException {
-        Optional<TaskDto> result = taskRepository.findById(taskId);
+        Optional<Task> result = taskRepository.findById(taskId);
         if (result.isPresent()) {
-            TaskDto localTask = result.get();
+            Task localTask = result.get();
             if (task.getClosed() != null) localTask.setClosed(task.getClosed());
             if (task.getDescription() != null) localTask.setDescription(task.getDescription());
             taskRepository.save(localTask);
