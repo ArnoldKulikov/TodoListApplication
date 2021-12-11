@@ -1,11 +1,12 @@
 package com.example.controllers;
 
-import com.example.data.TaskRepository;
-import com.example.data.models.common.Task;
-import com.example.data.models.common.TaskListResponseDto;
-import com.example.data.models.common.TaskResponseDto;
-import com.example.data.models.request.ChangeTaskRequestDto;
-import com.example.data.models.request.CreateTaskRequestDto;
+import com.example.repositories.TaskRepository;
+import com.example.repositories.UserRepository;
+import com.example.entities.Task;
+import com.example.models.response.TaskListResponseDto;
+import com.example.models.response.TaskResponseDto;
+import com.example.models.request.ChangeTaskRequestDto;
+import com.example.models.request.CreateTaskRequestDto;
 import com.example.exeption.MyException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -25,11 +26,13 @@ import java.util.Optional;
 public class TaskController {
 
     private final TaskRepository taskRepository;
+    private final UserRepository userRepository;
+    private final Long userId = 1L;
 
     @PostMapping
     public TaskResponseDto createTask(@Valid @RequestBody CreateTaskRequestDto taskRequest) {
         Task localTask = new Task();
-        localTask = localTask.taskServices(taskRequest.getDescription());
+        localTask = localTask.taskServices(taskRequest.getDescription(), userRepository.getById(userId));
         return new TaskResponseDto(taskRepository.save(localTask));
     }
 

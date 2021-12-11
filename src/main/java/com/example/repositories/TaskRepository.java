@@ -1,6 +1,6 @@
-package com.example.data;
+package com.example.repositories;
 
-import com.example.data.models.common.Task;
+import com.example.entities.Task;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 

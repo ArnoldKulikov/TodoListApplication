@@ -1,4 +1,4 @@
-package com.example.data.models.common;
+package com.example.entities;
 
 import lombok.Data;
 import lombok.experimental.Accessors;
@@ -20,12 +20,13 @@ public class Task {
     @Column(nullable = false)
     private String description;
 
-/*    @OneToOne
-    private User user;*/
+    @OneToOne
+    private User user;
 
-    public Task taskServices(String description) {
+    public Task taskServices(String description, User user) {
         return new Task()
                 .setClosed(false)
-                .setDescription(description);
+                .setDescription(description)
+                .setUser(user);
     }
 }

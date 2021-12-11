@@ -1,5 +1,7 @@
 databaseChangeLog:
   - include:
-      file: db/init/initDB.sql
+      file: db/init/11-12-2021-createTasksTable.sql
   - include:
-      file: db/init/createUserTable.sql
+      file: db/init/11-12-2021-createUsersTable.sql
+  - include:
+      file: db/init/11-12-2021-addUserToUsersTable.sql

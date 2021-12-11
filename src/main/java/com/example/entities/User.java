@@ -1,4 +1,4 @@
-package com.example.data.models.common;
+package com.example.entities;
 
 import lombok.Data;
 

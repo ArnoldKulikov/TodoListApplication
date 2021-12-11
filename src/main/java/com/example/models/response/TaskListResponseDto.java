@@ -1,5 +1,7 @@
-package com.example.data.models.common;
+package com.example.models.response;
 
+import com.example.entities.Task;
+import com.example.models.common.TaskDto;
 import lombok.Data;
 
 import javax.validation.constraints.NotNull;
