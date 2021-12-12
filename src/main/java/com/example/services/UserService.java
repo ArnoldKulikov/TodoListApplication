@@ -6,6 +6,8 @@ import com.example.models.common.UserDto;
 import com.example.repositories.RoleRepository;
 import com.example.repositories.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -54,5 +56,11 @@ public class UserService implements UserDetailsService {
         Optional<User> localUser = userRepository.findById(id);
         localUser.ifPresent(userRepository::delete);
         return true;
+    }
+
+    public User getCurrentUser() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String currentPrincipalName = authentication.getName();
+        return userRepository.findByUserName(currentPrincipalName);
     }
 }

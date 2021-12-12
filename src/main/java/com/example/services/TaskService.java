@@ -2,11 +2,7 @@ package com.example.services;
 
 import com.example.entities.Task;
 import com.example.entities.User;
-import com.example.repositories.TaskRepository;
-import com.example.repositories.UserRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -15,13 +11,10 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 public class TaskService {
 
-    private final TaskRepository taskRepository;
-    private final UserRepository userRepository;
+    private final UserService userService;
 
     public Task createTask(String description) {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        String currentPrincipalName = authentication.getName();
-        User user = userRepository.findByUserName(currentPrincipalName);
+        User user = userService.getCurrentUser();
         Task localTask = taskServices(description);
         user.getTasks().add(localTask);
         return localTask;
