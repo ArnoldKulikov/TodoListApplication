@@ -26,6 +26,9 @@ public class User implements UserDetails {
     @OneToMany(fetch = FetchType.EAGER)
     private Set<Role> roles;
 
+/*    @OneToMany(fetch = FetchType.LAZY)
+    private Set<Task> tasks;*/
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return getRoles();

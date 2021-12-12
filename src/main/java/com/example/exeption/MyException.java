@@ -10,7 +10,8 @@ public class MyException extends Exception {
             "unknownError", "Неизвестная ошибка",
             "unknownSubCommand", "Некорректный аргумент команды",
             "notTaskId", "Введен некорректный идентификатор задачи",
-            "emptyTaskDescription", "Пустое описание задачи");
+            "emptyTaskDescription", "Пустое описание задачи",
+            "userExist", "Пользователь уже существует");
 
     public MyException(String message) {
         super(errorList.get(message));

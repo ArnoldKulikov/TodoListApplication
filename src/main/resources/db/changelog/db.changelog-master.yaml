@@ -13,3 +13,5 @@ databaseChangeLog:
       file: db/init/11-12-2021-addAdminToUsersTable.sql
   - include:
       file: db/init/11-12-2021-addAdminToUserRolesTable.sql
+  - include:
+      file: db/init/11-12-2021-createUserTasksTable.sql

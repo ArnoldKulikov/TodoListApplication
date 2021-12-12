@@ -2,8 +2,10 @@ package com.example.services;
 
 import com.example.entities.Role;
 import com.example.entities.User;
-
+import com.example.models.common.UserDto;
+import com.example.repositories.RoleRepository;
 import com.example.repositories.UserRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -12,14 +14,15 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Collections;
-import java.util.List;
+import java.util.Optional;
 
 @Service
+@RequiredArgsConstructor
 @Transactional
-public class UserService implements UserDetailsService{
+public class UserService implements UserDetailsService {
 
-    @Autowired
-    UserRepository userRepository;
+    private final UserRepository userRepository;
+    private final RoleRepository roleRepository;
 
     @Override
     public UserDetails loadUserByUsername(String userName) throws UsernameNotFoundException {
@@ -32,20 +35,27 @@ public class UserService implements UserDetailsService{
         return user;
     }
 
-    public List<User> allUsers() {
-        return userRepository.findAll();
-    }
-
-    public boolean saveUser(User user) {
-        User userFromDB = userRepository.findByUserName(user.getUsername());
+    public boolean saveUser(UserDto user) {
+        User userFromDB = userRepository.findByUserName(user.getUserName());
 
         if (userFromDB != null) {
             return false;
         }
+        User newUser = new User();
+        Optional<Role> searchRole = roleRepository.findById(2L);
+        if (!searchRole.isPresent()) {
+            return false;
+        }
+        newUser.setRoles(Collections.singleton(searchRole.get()));
+        newUser.setPassword(user.getPassword());
+        newUser.setUserName(user.getUserName());
+        userRepository.save(newUser);
+        return true;
+    }
 
-        user.setRoles(Collections.singleton(new Role(1L, "USER")));
-        user.setPassword(user.getPassword());
-        userRepository.save(user);
+    public Boolean deleteUser (Long id) {
+        Optional<User> localUser = userRepository.findById(id);
+        localUser.ifPresent(userRepository::delete);
         return true;
     }
 }

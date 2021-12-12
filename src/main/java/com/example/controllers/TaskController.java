@@ -19,7 +19,6 @@ import javax.validation.constraints.NotNull;
 import java.util.List;
 import java.util.Optional;
 
-@Slf4j
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/task")
