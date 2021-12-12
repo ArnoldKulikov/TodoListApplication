@@ -8,6 +8,7 @@ import com.example.models.response.TaskListResponseDto;
 import com.example.models.response.TaskResponseDto;
 import com.example.repositories.TaskRepository;
 import com.example.repositories.UserRepository;
+import com.example.services.TaskService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.lang.NonNull;
@@ -24,14 +25,11 @@ import java.util.Optional;
 public class TaskController {
 
     private final TaskRepository taskRepository;
-    private final UserRepository userRepository;
-    private final Long userId = 1L;
+    private final TaskService taskService;
 
     @PostMapping
     public TaskResponseDto createTask(@Valid @RequestBody CreateTaskRequestDto taskRequest) {
-        Task localTask = new Task();
-        localTask = localTask.taskServices(taskRequest.getDescription(), userRepository.getById(userId));
-        return new TaskResponseDto(taskRepository.save(localTask));
+        return new TaskResponseDto(taskService.createTask(taskRequest.getDescription()));
     }
 
     @GetMapping

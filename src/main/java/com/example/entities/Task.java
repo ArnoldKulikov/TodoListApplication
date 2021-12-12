@@ -14,15 +14,8 @@ public class Task {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false)
     private Boolean closed;
 
-    @Column(nullable = false)
     private String description;
 
-    public Task taskServices(String description, User user) {
-        return new Task()
-                .setClosed(false)
-                .setDescription(description);
-    }
 }
