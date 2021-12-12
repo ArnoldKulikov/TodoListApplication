@@ -20,13 +20,9 @@ public class Task {
     @Column(nullable = false)
     private String description;
 
-    @OneToOne
-    private User user;
-
     public Task taskServices(String description, User user) {
         return new Task()
                 .setClosed(false)
-                .setDescription(description)
-                .setUser(user);
+                .setDescription(description);
     }
 }

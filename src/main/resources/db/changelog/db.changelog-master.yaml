@@ -4,4 +4,12 @@ databaseChangeLog:
   - include:
       file: db/init/11-12-2021-createUsersTable.sql
   - include:
-      file: db/init/11-12-2021-addUserToUsersTable.sql
+      file: db/init/11-12-2021-createRolesTable.sql
+  - include:
+      file: db/init/11-12-2021-createUserRolesTable.sql
+  - include:
+      file: db/init/11-12-2021-addRolesToRolesTable.sql
+  - include:
+      file: db/init/11-12-2021-addAdminToUsersTable.sql
+  - include:
+      file: db/init/11-12-2021-addAdminToUserRolesTable.sql
