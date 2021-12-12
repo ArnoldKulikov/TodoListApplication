@@ -1,13 +1,10 @@
 package com.example.controllers;
 
-import com.example.entities.User;
 import com.example.exeption.MyException;
 import com.example.models.common.UserDto;
-import com.example.repositories.UserRepository;
 import com.example.services.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.dao.EmptyResultDataAccessException;
-import org.springframework.http.HttpStatus;
 import org.springframework.lang.NonNull;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
@@ -24,11 +21,11 @@ public class AdminController {
     @PostMapping
     public UserDto createUser(@Valid @RequestBody UserDto user) throws MyException {
         Boolean result = userService.saveUser(user);
-        if(!result) {
+        if (!result) {
             throw new MyException("userExist");
         }
         UserDetails localUser = userService.loadUserByUsername(user.getUserName());
-        return new UserDto(localUser.getUsername(),localUser.getPassword());
+        return new UserDto(localUser.getUsername(), localUser.getPassword());
     }
 
     @DeleteMapping("/{user_id}")

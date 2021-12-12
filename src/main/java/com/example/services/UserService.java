@@ -6,7 +6,6 @@ import com.example.models.common.UserDto;
 import com.example.repositories.RoleRepository;
 import com.example.repositories.UserRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -53,7 +52,7 @@ public class UserService implements UserDetailsService {
         return true;
     }
 
-    public Boolean deleteUser (Long id) {
+    public Boolean deleteUser(Long id) {
         Optional<User> localUser = userRepository.findById(id);
         localUser.ifPresent(userRepository::delete);
         return true;

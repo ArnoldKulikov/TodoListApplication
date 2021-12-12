@@ -1,15 +1,14 @@
 package com.example.controllers;
 
-import com.example.repositories.TaskRepository;
-import com.example.repositories.UserRepository;
 import com.example.entities.Task;
-import com.example.models.response.TaskListResponseDto;
-import com.example.models.response.TaskResponseDto;
+import com.example.exeption.MyException;
 import com.example.models.request.ChangeTaskRequestDto;
 import com.example.models.request.CreateTaskRequestDto;
-import com.example.exeption.MyException;
+import com.example.models.response.TaskListResponseDto;
+import com.example.models.response.TaskResponseDto;
+import com.example.repositories.TaskRepository;
+import com.example.repositories.UserRepository;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.lang.NonNull;
 import org.springframework.web.bind.annotation.*;
