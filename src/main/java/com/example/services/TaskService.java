@@ -7,6 +7,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -29,12 +30,16 @@ public class TaskService {
         return user.getTasks()
                 .stream()
                 .filter(task -> !task.getClosed())
+                .sorted(Comparator.comparing(Task::getId))
                 .collect(Collectors.toList());
     }
 
     public List<Task> getTaskList() {
         User user = userService.getCurrentUser();
-        return user.getTasks();
+        return user.getTasks()
+                .stream()
+                .sorted(Comparator.comparing(Task::getId))
+                .collect(Collectors.toList());
     }
 
     public List<Task> searchTask(String search) {
@@ -42,6 +47,7 @@ public class TaskService {
         return user.getTasks()
                 .stream()
                 .filter(task -> task.getDescription().contains(search))
+                .sorted(Comparator.comparing(Task::getId))
                 .collect(Collectors.toList());
     }
 
