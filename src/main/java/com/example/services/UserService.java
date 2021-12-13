@@ -40,11 +40,11 @@ public class UserService implements UserDetailsService {
         if (userFromDB != null) {
             return false;
         }
-        User newUser = new User();
         Optional<Role> searchRole = roleRepository.findById(2L);
         if (!searchRole.isPresent()) {
             return false;
         }
+        User newUser = new User();
         newUser.setRoles(Collections.singleton(searchRole.get()));
         newUser.setPassword(user.getPassword());
         newUser.setUserName(user.getUserName());
@@ -52,10 +52,9 @@ public class UserService implements UserDetailsService {
         return true;
     }
 
-    public Boolean deleteUser(Long id) {
+    public void deleteUser(Long id) {
         Optional<User> localUser = userRepository.findById(id);
         localUser.ifPresent(userRepository::delete);
-        return true;
     }
 
     public User getCurrentUser() {

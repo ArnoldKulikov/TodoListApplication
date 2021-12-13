@@ -21,9 +21,6 @@ public class User implements UserDetails {
 
     private String password;
 
-    @Transient
-    private String passwordConfirm;
-
     @OneToMany(fetch = FetchType.EAGER)
     private Set<Role> roles;
 
