@@ -5,6 +5,7 @@ import com.example.models.request.ChangeTaskRequestDto;
 import com.example.models.request.CreateTaskRequestDto;
 import com.example.models.response.TaskListResponseDto;
 import com.example.models.response.TaskResponseDto;
+import com.example.services.MapService;
 import com.example.services.TaskService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.lang.NonNull;
@@ -19,34 +20,45 @@ import javax.validation.constraints.NotNull;
 public class TaskController {
 
     private final TaskService taskService;
+    private final MapService mapService;
 
     @PostMapping
     public TaskResponseDto createTask(@Valid @RequestBody CreateTaskRequestDto taskRequest) {
-        return new TaskResponseDto(taskService.createTask(taskRequest.getDescription()));
+        TaskResponseDto response = new TaskResponseDto();
+        response.setTask(mapService.convertToTaskDto(taskService.createTask(taskRequest.getDescription())));
+        return response;
     }
 
     @GetMapping
     public TaskListResponseDto getTaskList() {
-        return new TaskListResponseDto(taskService.getOpenTaskList());
+        TaskListResponseDto response = new TaskListResponseDto();
+        response.setTasks(mapService.convertToListTaskDto(taskService.getOpenTaskList()));
+        return response;
     }
 
     @GetMapping("/all")
     public TaskListResponseDto getTaskListAll() {
-        return new TaskListResponseDto(taskService.getTaskList());
+        TaskListResponseDto response = new TaskListResponseDto();
+        response.setTasks(mapService.convertToListTaskDto(taskService.getTaskList()));
+        return response;
     }
 
     @GetMapping("/search")
     public TaskListResponseDto getTaskListBySearch(
             @RequestParam("search") @NotNull String searchText
     ) {
-        return new TaskListResponseDto(taskService.searchTask(searchText));
+        TaskListResponseDto response = new TaskListResponseDto();
+        response.setTasks(mapService.convertToListTaskDto(taskService.searchTask(searchText)));
+        return response;
     }
 
     @PatchMapping("/{task_id}")
     public TaskResponseDto changeTask(
             @PathVariable("task_id") @NonNull Long taskId,
             @Valid @RequestBody ChangeTaskRequestDto task) throws MyException {
-        return new TaskResponseDto(taskService.changeTask(taskId, task.getClosed(), task.getDescription()));
+        TaskResponseDto response = new TaskResponseDto();
+        response.setTask(mapService.convertToTaskDto(taskService.changeTask(taskId, task.getClosed(), task.getDescription())));
+        return response;
     }
 
     @DeleteMapping("/{task_id}")
