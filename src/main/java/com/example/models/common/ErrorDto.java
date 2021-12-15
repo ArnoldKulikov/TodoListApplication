@@ -1,4 +1,4 @@
-package com.example.data.models.common;
+package com.example.models.common;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;

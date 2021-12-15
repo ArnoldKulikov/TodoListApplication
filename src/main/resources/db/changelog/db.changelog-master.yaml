@@ -1,3 +1,17 @@
 databaseChangeLog:
-  - includeAll:
-      path: db/init/
+  - include:
+      file: db/init/11-12-2021-createTasksTable.sql
+  - include:
+      file: db/init/11-12-2021-createUsersTable.sql
+  - include:
+      file: db/init/11-12-2021-createRolesTable.sql
+  - include:
+      file: db/init/11-12-2021-createUserRolesTable.sql
+  - include:
+      file: db/init/11-12-2021-addRolesToRolesTable.sql
+  - include:
+      file: db/init/11-12-2021-addAdminToUsersTable.sql
+  - include:
+      file: db/init/11-12-2021-addAdminToUserRolesTable.sql
+  - include:
+      file: db/init/11-12-2021-createUserTasksTable.sql
