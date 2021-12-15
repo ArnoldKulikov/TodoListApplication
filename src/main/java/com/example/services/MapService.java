@@ -5,8 +5,8 @@ import com.example.models.common.TaskDto;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Component;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Component
 public class MapService {
@@ -22,21 +22,15 @@ public class MapService {
     }
 
     public List<TaskDto> convertToListTaskDto(List<Task> task) {
-        List<TaskDto> tasks = new ArrayList<>();
-        for (Task localTask: task)
-        {
-            tasks.add(modelMapper.map(task, TaskDto.class));
-        }
-        return tasks;
+        return task.stream()
+                .map(element -> modelMapper.map(element, TaskDto.class))
+                .collect(Collectors.toList());
     }
 
     public List<Task> convertToListTask(List<TaskDto> taskDto) {
-        List<Task> tasks = new ArrayList<>();
-        for (TaskDto localTask: taskDto)
-        {
-            tasks.add(modelMapper.map(taskDto, Task.class));
-        }
-        return tasks;
+        return taskDto.stream()
+                .map(element -> modelMapper.map(element, Task.class))
+                .collect(Collectors.toList());
     }
 
 }

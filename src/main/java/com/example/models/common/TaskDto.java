@@ -1,11 +1,13 @@
 package com.example.models.common;
 
 import lombok.Data;
+import lombok.RequiredArgsConstructor;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
 @Data
+@RequiredArgsConstructor
 public class TaskDto {
 
     @NotBlank
