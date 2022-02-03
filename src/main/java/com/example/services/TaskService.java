@@ -29,7 +29,7 @@ public class TaskService {
         User user = userService.getCurrentUser();
         return user.getTasks()
                 .stream()
-                .filter(task -> !task.getClosed())
+                .filter(task -> task.getClosed() == false)
                 .sorted(Comparator.comparing(Task::getId))
                 .collect(Collectors.toList());
     }
