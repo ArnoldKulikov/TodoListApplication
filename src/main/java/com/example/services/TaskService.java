@@ -17,6 +17,7 @@ import java.util.stream.Collectors;
 public class TaskService {
 
     private final UserService userService;
+    private final ExtTaskService extTaskService;
 
     public Task createTask(String description) {
         User user = userService.getCurrentUser();
@@ -62,13 +63,17 @@ public class TaskService {
         return localTask;
     }
 
-    public void deleteTask(Long taskId) throws MyException {
-        User user = userService.getCurrentUser();
-        Task localTask = user.getTasks()
-                .stream()
-                .filter(task -> task.getId() == taskId)
-                .findFirst().orElseThrow(() -> new MyException("taskNotFound"));
-        user.getTasks().remove(localTask);
+    public void deleteTask(String taskId) throws MyException {
+        if (taskId.contains("EXT_")){
+            extTaskService.deleteExtTask(taskId.substring(4));
+        } else {
+            User user = userService.getCurrentUser();
+            Task localTask = user.getTasks()
+                    .stream()
+                    .filter(task -> task.getId() == Long.parseLong(taskId.substring(5)))
+                    .findFirst().orElseThrow(() -> new MyException("taskNotFound"));
+            user.getTasks().remove(localTask);
+        }
     }
 
     private Task taskServices(String description) {

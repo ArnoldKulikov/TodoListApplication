@@ -16,4 +16,12 @@ public class ExtTaskService {
     public List<ExtTaskDto> getTaskList() {
         return getExtTaskListFacade.getExtTaskList();
     }
+
+    public List<ExtTaskDto> getAllTaskList() {
+        return getExtTaskListFacade.getAllExtTaskList();
+    }
+
+    public void deleteExtTask(String id) {
+        getExtTaskListFacade.deleteExtTask(id);
+    }
 }

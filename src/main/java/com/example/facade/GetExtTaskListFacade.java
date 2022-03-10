@@ -31,4 +31,28 @@ public class GetExtTaskListFacade {
             throw new RuntimeException(e);
         }
     }
+
+    public List<ExtTaskDto> getAllExtTaskList() {
+        HttpHeaders headers = new HttpHeaders();
+        headers.setBasicAuth("admin", "admin");
+
+        HttpEntity<String> request = new HttpEntity<>(headers);
+
+        try {
+            ResponseEntity<ExtTaskListDto> response = restTemplate.exchange("http://localhost:8080/task?all=true", HttpMethod.GET,
+                    request, ExtTaskListDto.class);
+            return response.getBody().getTasks();
+        } catch (NullPointerException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public void deleteExtTask(String id) {
+        HttpHeaders headers = new HttpHeaders();
+        headers.setBasicAuth("admin", "admin");
+
+        HttpEntity<String> request = new HttpEntity<>(headers);
+
+        restTemplate.exchange("http://localhost:8080/task/" + id, HttpMethod.DELETE, request, String.class);
+    }
 }

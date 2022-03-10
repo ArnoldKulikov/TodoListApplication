@@ -49,7 +49,11 @@ public class TaskController {
     @GetMapping("/all")
     public TaskListResponseDto getTaskListAll() {
         TaskListResponseDto response = new TaskListResponseDto();
-        response.setTasks(mapService.convertToListTaskDto(taskService.getTaskList()));
+        response.setTasks(
+                Stream.concat(
+                        mapService.convertToListTaskDto(taskService.getTaskList()).stream(),
+                        mapService.convertToListTaskDtoFromListExtTaskDto(extTaskService.getAllTaskList()).stream()
+                ).collect(Collectors.toList()));
         return response;
     }
 
@@ -72,7 +76,7 @@ public class TaskController {
     }
 
     @DeleteMapping("/{task_id}")
-    public void deleteTask(@PathVariable("task_id") @NonNull Long taskId) throws MyException {
+    public void deleteTask(@PathVariable("task_id") @NonNull String taskId) throws MyException {
         taskService.deleteTask(taskId);
     }
 }
