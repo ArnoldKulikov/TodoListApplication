@@ -1,6 +1,7 @@
 package com.example.controllers;
 
 import com.example.exeption.MyException;
+import com.example.models.common.TaskDto;
 import com.example.models.request.ChangeTaskRequestDto;
 import com.example.models.request.CreateTaskRequestDto;
 import com.example.models.response.TaskListResponseDto;
@@ -9,15 +10,12 @@ import com.example.services.ExtTaskService;
 import com.example.services.MapService;
 import com.example.services.TaskService;
 import lombok.RequiredArgsConstructor;
-import org.apache.commons.lang3.ArrayUtils;
 import org.springframework.lang.NonNull;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
-import java.util.Arrays;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
+import java.util.ArrayList;
 
 @RestController
 @RequiredArgsConstructor
@@ -38,22 +36,20 @@ public class TaskController {
     @GetMapping
     public TaskListResponseDto getTaskList() {
         TaskListResponseDto response = new TaskListResponseDto();
-        response.setTasks(
-                Stream.concat(
-                        mapService.convertToListTaskDto(taskService.getOpenTaskList()).stream(),
-                        mapService.convertToListTaskDtoFromListExtTaskDto(extTaskService.getTaskList()).stream()
-                ).collect(Collectors.toList()));
+        ArrayList<TaskDto> list = new ArrayList<>();
+        list.addAll(mapService.convertToListTaskDto(taskService.getOpenTaskList()));
+        list.addAll(mapService.convertToListTaskDtoFromListExtTaskDto(extTaskService.getTaskList()));
+        response.setTasks(list);
         return response;
     }
 
     @GetMapping("/all")
     public TaskListResponseDto getTaskListAll() {
         TaskListResponseDto response = new TaskListResponseDto();
-        response.setTasks(
-                Stream.concat(
-                        mapService.convertToListTaskDto(taskService.getTaskList()).stream(),
-                        mapService.convertToListTaskDtoFromListExtTaskDto(extTaskService.getAllTaskList()).stream()
-                ).collect(Collectors.toList()));
+        ArrayList<TaskDto> list = new ArrayList<>();
+        list.addAll(mapService.convertToListTaskDto(taskService.getTaskList()));
+        list.addAll(mapService.convertToListTaskDtoFromListExtTaskDto(extTaskService.getAllTaskList()));
+        response.setTasks(list);
         return response;
     }
 

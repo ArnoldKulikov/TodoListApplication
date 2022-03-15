@@ -21,7 +21,7 @@ class GetExtTaskListFacadeTest {
         WireMock wireMock = wireMockRuntimeInfo.getWireMock();
         wireMock.register(WireMock.get("http://localhost:8080/task?all=false").willReturn(okJson("{\"tasks\": [{\"id\": 3,\"description\": \"task3\",\"done\": false}]}")));
 
-        List<ExtTaskDto> extTaskDto = getExtTaskListFacade.getExtTaskList();
+        List<ExtTaskDto> extTaskDto = getExtTaskListFacade.getExtTaskList(false);
 
         assertEquals(1, extTaskDto.size());
     }
@@ -31,7 +31,7 @@ class GetExtTaskListFacadeTest {
         WireMock wireMock = wireMockRuntimeInfo.getWireMock();
         wireMock.register(WireMock.get("http://localhost:8080/task?all=true").willReturn(okJson("{\"tasks\":[{\"id\":3,\"description\":\"task3\",\"done\":false},{\"id\":2,\"description\":\"task2\",\"done\":true}]}")));
 
-        List<ExtTaskDto> extTaskDto = getExtTaskListFacade.getAllExtTaskList();
+        List<ExtTaskDto> extTaskDto = getExtTaskListFacade.getExtTaskList(true);
 
         assertEquals(2, extTaskDto.size());
     }

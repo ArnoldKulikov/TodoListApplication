@@ -14,11 +14,11 @@ public class ExtTaskService {
     private final GetExtTaskListFacade getExtTaskListFacade;
 
     public List<ExtTaskDto> getTaskList() {
-        return getExtTaskListFacade.getExtTaskList();
+        return getExtTaskListFacade.getExtTaskList(false);
     }
 
     public List<ExtTaskDto> getAllTaskList() {
-        return getExtTaskListFacade.getAllExtTaskList();
+        return getExtTaskListFacade.getExtTaskList(true);
     }
 
     public void deleteExtTask(String id) {

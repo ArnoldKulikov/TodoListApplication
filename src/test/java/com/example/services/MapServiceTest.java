@@ -31,7 +31,7 @@ class MapServiceTest {
 
         TaskDto taskDto = new TaskDto("1", true, "test");
 
-        Task task = mapService.convertToTaskFromTaskDto(taskDto);
+        Task task = mapService.convertToTask(taskDto);
 
         assertEquals(1l, task.getId());
         assertEquals(true, task.getClosed());

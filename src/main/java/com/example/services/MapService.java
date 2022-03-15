@@ -20,7 +20,7 @@ public class MapService {
         return taskDto;
     }
 
-    public Task convertToTaskFromTaskDto(TaskDto taskDto) {
+    public Task convertToTask(TaskDto taskDto) {
         return modelMapper.map(taskDto, Task.class);
     }
 
@@ -32,11 +32,11 @@ public class MapService {
 
     public List<Task> convertToListTask(List<TaskDto> taskDto) {
         return taskDto.stream()
-                .map(this::convertToTaskFromTaskDto)
+                .map(this::convertToTask)
                 .collect(Collectors.toList());
     }
 
-    public TaskDto convertToTaskDtoFromExtTaskDto(ExtTaskDto extTaskDto) {
+    public TaskDto convertToTaskDto(ExtTaskDto extTaskDto) {
         TaskDto taskDto = modelMapper.map(extTaskDto, TaskDto.class);
         taskDto.setTaskId("EXT_" + taskDto.getTaskId());
         taskDto.setClosed(extTaskDto.getDone());
@@ -45,7 +45,7 @@ public class MapService {
 
     public List<TaskDto> convertToListTaskDtoFromListExtTaskDto(List<ExtTaskDto> extTaskDto) {
         return extTaskDto.stream()
-                .map(this::convertToTaskDtoFromExtTaskDto)
+                .map(this::convertToTaskDto)
                 .collect(Collectors.toList());
     }
 
