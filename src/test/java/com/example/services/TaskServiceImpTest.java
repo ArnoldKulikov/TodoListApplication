@@ -3,6 +3,8 @@ package com.example.services;
 import com.example.entities.Task;
 import com.example.entities.User;
 import com.example.exeption.MyException;
+import com.example.services.task.imp.ExtTaskServiceImp;
+import com.example.services.task.imp.TaskServiceImp;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
@@ -11,11 +13,11 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class TaskServiceTest {
+class TaskServiceImpTest {
 
     UserService userService = Mockito.mock(UserService.class);
-    ExtTaskService extTaskService = Mockito.mock(ExtTaskService.class);
-    TaskService taskService = new TaskService(userService,extTaskService);
+    ExtTaskServiceImp extTaskServiceImp = Mockito.mock(ExtTaskServiceImp.class);
+    TaskServiceImp taskServiceImp = new TaskServiceImp(userService, extTaskServiceImp);
 
     @Test
     void createTask() {
@@ -23,7 +25,7 @@ class TaskServiceTest {
         User user = createUser();
         Mockito.when(userService.getCurrentUser()).thenReturn(user);
 
-        taskService.createTask("test4");
+        taskServiceImp.createTask("test4");
 
         assertTrue(user.getTasks().stream()
                 .anyMatch(t -> t.getDescription().equals("test4")));
@@ -37,7 +39,7 @@ class TaskServiceTest {
         User user = createUser();
         Mockito.when(userService.getCurrentUser()).thenReturn(user);
 
-        List<Task> list = taskService.getOpenTaskList();
+        List<Task> list = taskServiceImp.getOpenTaskList();
 
         assertEquals(1, list.size());
         Mockito.verify(userService, Mockito.times(1)).getCurrentUser();
@@ -50,7 +52,7 @@ class TaskServiceTest {
         User user = createUser();
         Mockito.when(userService.getCurrentUser()).thenReturn(user);
 
-        List<Task> list = taskService.getTaskList();
+        List<Task> list = taskServiceImp.getTaskList();
 
         assertEquals(3, list.size());
         Mockito.verify(userService, Mockito.times(1)).getCurrentUser();
@@ -62,7 +64,7 @@ class TaskServiceTest {
         User user = createUser();
         Mockito.when(userService.getCurrentUser()).thenReturn(user);
 
-        List<Task> list = taskService.searchTask("test2");
+        List<Task> list = taskServiceImp.searchTask("test2");
 
         assertEquals(1, list.size());
         Mockito.verify(userService, Mockito.times(1)).getCurrentUser();
@@ -75,7 +77,7 @@ class TaskServiceTest {
         User user = createUser();
         Mockito.when(userService.getCurrentUser()).thenReturn(user);
 
-        Task task = taskService.changeTask(1l, true, "closed");
+        Task task = taskServiceImp.changeTask(1l, true, "closed");
 
         assertEquals(1l, task.getId());
         assertEquals(true, task.getClosed());
@@ -90,7 +92,7 @@ class TaskServiceTest {
         Mockito.when(userService.getCurrentUser()).thenReturn(user);
 
         Throwable thrown = assertThrows(MyException.class, () -> {
-            taskService.changeTask(12l, true, "closed");
+            taskServiceImp.changeTask(12l, true, "closed");
         });
         assertEquals("Задача не найдена", thrown.getMessage());
         Mockito.verify(userService, Mockito.times(1)).getCurrentUser();
@@ -101,7 +103,7 @@ class TaskServiceTest {
         User user = createUser();
         Mockito.when(userService.getCurrentUser()).thenReturn(user);
 
-        taskService.deleteTask("TDLA_1");
+        taskServiceImp.deleteTask("TDLA_1");
 
         assertTrue(user.getTasks().stream()
                 .filter(task -> task.getId() == 1l)
@@ -117,7 +119,7 @@ class TaskServiceTest {
         Mockito.when(userService.getCurrentUser()).thenReturn(user);
 
         Throwable thrown = assertThrows(MyException.class, () -> {
-            taskService.deleteTask("TDLA_12");
+            taskServiceImp.deleteTask("TDLA_12");
         });
         assertEquals("Задача не найдена", thrown.getMessage());
         Mockito.verify(userService, Mockito.times(1)).getCurrentUser();

@@ -1,8 +1,10 @@
-package com.example.services;
+package com.example.services.task.imp;
 
 import com.example.entities.Task;
 import com.example.entities.User;
 import com.example.exeption.MyException;
+import com.example.services.UserService;
+import com.example.services.task.CommonTaskService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -14,10 +16,10 @@ import java.util.stream.Collectors;
 @Service
 @RequiredArgsConstructor
 @Transactional
-public class TaskService {
+public class TaskServiceImp implements CommonTaskService {
 
     private final UserService userService;
-    private final ExtTaskService extTaskService;
+    private final ExtTaskServiceImp extTaskServiceImp;
 
     public Task createTask(String description) {
         User user = userService.getCurrentUser();
@@ -63,17 +65,14 @@ public class TaskService {
         return localTask;
     }
 
+    @Override
     public void deleteTask(String taskId) throws MyException {
-        if (taskId.contains("EXT_")){
-            extTaskService.deleteExtTask(taskId.substring(4));
-        } else {
             User user = userService.getCurrentUser();
             Task localTask = user.getTasks()
                     .stream()
                     .filter(task -> task.getId() == Long.parseLong(taskId.substring(5)))
                     .findFirst().orElseThrow(() -> new MyException("taskNotFound"));
             user.getTasks().remove(localTask);
-        }
     }
 
     private Task taskServices(String description) {
