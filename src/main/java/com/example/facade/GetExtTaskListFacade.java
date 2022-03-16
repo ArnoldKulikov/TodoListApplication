@@ -1,5 +1,6 @@
 package com.example.facade;
 
+import com.example.exeption.MyException;
 import com.example.models.common.ExtTaskDto;
 import com.example.models.common.ExtTaskListDto;
 import org.springframework.beans.factory.annotation.Value;
@@ -40,12 +41,17 @@ public class GetExtTaskListFacade {
         }
     }
 
-    public void deleteExtTask(String id) {
+    public void deleteExtTask(String id) throws MyException {
         HttpHeaders headers = new HttpHeaders();
         headers.setBasicAuth(userName, password);
 
         HttpEntity<String> request = new HttpEntity<>(headers);
 
-        restTemplate.exchange(baseUrl + "/task/" + id, HttpMethod.DELETE, request, String.class);
+        try {
+            restTemplate.exchange(baseUrl + "/task/" + id, HttpMethod.DELETE, request, String.class);
+
+        } catch (RuntimeException e) {
+            throw new MyException("taskNotFound");
+        }
     }
 }
