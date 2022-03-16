@@ -6,14 +6,13 @@ import com.example.services.task.TaskServiceProvider;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Service
 @RequiredArgsConstructor
 public class CommonTaskServiceImp implements CommonTaskService {
 
-    private final List<TaskServiceProvider> list = new ArrayList<>();
+    private final List<TaskServiceProvider> list;
 
     @Override
     public void deleteTask(String taskId) throws MyException {
