@@ -3,6 +3,8 @@ package com.example.services;
 import com.example.entities.Task;
 import com.example.entities.User;
 import com.example.exeption.MyException;
+import com.example.services.task.TaskService;
+import com.example.services.task.imp.TaskServiceImp;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
@@ -11,10 +13,10 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class TaskServiceTest {
+class TaskServiceImpTest {
 
     UserService userService = Mockito.mock(UserService.class);
-    TaskService taskService = new TaskService(userService);
+    TaskService taskService = new TaskServiceImp(userService);
 
     @Test
     void createTask() {
@@ -100,7 +102,7 @@ class TaskServiceTest {
         User user = createUser();
         Mockito.when(userService.getCurrentUser()).thenReturn(user);
 
-        taskService.deleteTask(1l);
+        taskService.deleteTask("TDLA_1");
 
         assertTrue(user.getTasks().stream()
                 .filter(task -> task.getId() == 1l)
@@ -116,7 +118,7 @@ class TaskServiceTest {
         Mockito.when(userService.getCurrentUser()).thenReturn(user);
 
         Throwable thrown = assertThrows(MyException.class, () -> {
-            taskService.deleteTask(12l);
+            taskService.deleteTask("TDLA_12");
         });
         assertEquals("Задача не найдена", thrown.getMessage());
         Mockito.verify(userService, Mockito.times(1)).getCurrentUser();

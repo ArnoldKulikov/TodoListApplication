@@ -12,7 +12,7 @@ public class TaskDto {
 
     @NotBlank
     @NotNull
-    private Long taskId;
+    private String taskId;
 
     @NotBlank
     @NotNull
@@ -22,7 +22,7 @@ public class TaskDto {
     @NotNull
     private String description;
 
-    public TaskDto(@NotBlank @NotNull Long taskId, @NotBlank @NotNull Boolean closed, @NotBlank @NotNull String description) {
+    public TaskDto(@NotBlank @NotNull String taskId, @NotBlank @NotNull Boolean closed, @NotBlank @NotNull String description) {
         this.taskId = taskId;
         this.closed = closed;
         this.description = description;

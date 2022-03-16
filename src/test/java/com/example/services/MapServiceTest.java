@@ -2,7 +2,6 @@ package com.example.services;
 
 import com.example.entities.Task;
 import com.example.models.common.TaskDto;
-import org.hibernate.criterion.Order;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
@@ -30,7 +29,7 @@ class MapServiceTest {
     @Test
     void convertToTask() {
 
-        TaskDto taskDto = new TaskDto(1l, true, "test");
+        TaskDto taskDto = new TaskDto("1", true, "test");
 
         Task task = mapService.convertToTask(taskDto);
 
@@ -61,9 +60,9 @@ class MapServiceTest {
     void convertToListTask() {
 
         List<TaskDto> listDto = new ArrayList<>();
-        listDto.add(new TaskDto(1l, false, "test1"));
-        listDto.add(new TaskDto(2l, true, "test2"));
-        listDto.add(new TaskDto(3l, false, "test3"));
+        listDto.add(new TaskDto("1", false, "test1"));
+        listDto.add(new TaskDto("2", true, "test2"));
+        listDto.add(new TaskDto("3", false, "test3"));
 
         List<Task> list = mapService.convertToListTask(listDto);
         Task localTask = list.get(0);

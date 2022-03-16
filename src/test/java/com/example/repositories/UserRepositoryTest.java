@@ -3,7 +3,7 @@ package com.example.repositories;
 import com.example.entities.Task;
 import com.example.entities.User;
 import com.example.exeption.MyException;
-import com.example.services.TaskService;
+import com.example.services.task.imp.TaskServiceImp;
 import com.example.services.UserService;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
@@ -37,7 +37,7 @@ public class UserRepositoryTest {
     private UserRepository userRepository;
 
     @Autowired
-    private TaskService taskService;
+    private TaskServiceImp taskServiceImp;
 
     @MockBean
     private UserService userService;
@@ -54,7 +54,7 @@ public class UserRepositoryTest {
         User newUser = userRepository.findByUserName("admin");
         Mockito.when(userService.getCurrentUser()).thenReturn(newUser);
 
-        taskService.createTask("test");
+        taskServiceImp.createTask("test");
 
         assertEquals(1, newUser.getTasks().size());
     }
@@ -64,8 +64,8 @@ public class UserRepositoryTest {
         User newUser = userRepository.findByUserName("admin");
         Mockito.when(userService.getCurrentUser()).thenReturn(newUser);
 
-        taskService.createTask("test");
-        List<Task> tasks = taskService.searchTask("test");
+        taskServiceImp.createTask("test");
+        List<Task> tasks = taskServiceImp.searchTask("test");
 
         assertEquals(1, tasks.size());
     }
@@ -75,10 +75,10 @@ public class UserRepositoryTest {
         User newUser = userRepository.findByUserName("admin");
         Mockito.when(userService.getCurrentUser()).thenReturn(newUser);
 
-        taskService.createTask("test");
-        List<Task> tasks = taskService.searchTask("test");
+        taskServiceImp.createTask("test");
+        List<Task> tasks = taskServiceImp.searchTask("test");
         Task task = tasks.get(0);
-        taskService.changeTask(task.getId(), true, "newDescription");
+        taskServiceImp.changeTask(task.getId(), true, "newDescription");
         task = newUser.getTasks().get(0);
         assertEquals("newDescription", task.getDescription());
         assertEquals(true, task.getClosed());

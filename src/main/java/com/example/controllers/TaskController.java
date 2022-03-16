@@ -1,18 +1,22 @@
 package com.example.controllers;
 
 import com.example.exeption.MyException;
+import com.example.models.common.TaskDto;
 import com.example.models.request.ChangeTaskRequestDto;
 import com.example.models.request.CreateTaskRequestDto;
 import com.example.models.response.TaskListResponseDto;
 import com.example.models.response.TaskResponseDto;
+import com.example.services.task.CommonTaskService;
+import com.example.services.task.ExtTaskService;
+import com.example.services.task.TaskService;
 import com.example.services.MapService;
-import com.example.services.TaskService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.lang.NonNull;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
+import java.util.ArrayList;
 
 @RestController
 @RequiredArgsConstructor
@@ -21,6 +25,8 @@ public class TaskController {
 
     private final TaskService taskService;
     private final MapService mapService;
+    private final ExtTaskService extTaskService;
+    private final CommonTaskService commonTaskService;
 
     @PostMapping
     public TaskResponseDto createTask(@Valid @RequestBody CreateTaskRequestDto taskRequest) {
@@ -32,14 +38,20 @@ public class TaskController {
     @GetMapping
     public TaskListResponseDto getTaskList() {
         TaskListResponseDto response = new TaskListResponseDto();
-        response.setTasks(mapService.convertToListTaskDto(taskService.getOpenTaskList()));
+        ArrayList<TaskDto> list = new ArrayList<>();
+        list.addAll(mapService.convertToListTaskDto(taskService.getOpenTaskList()));
+        list.addAll(mapService.convertToListTaskDtoFromListExtTaskDto(extTaskService.getTaskList()));
+        response.setTasks(list);
         return response;
     }
 
     @GetMapping("/all")
     public TaskListResponseDto getTaskListAll() {
         TaskListResponseDto response = new TaskListResponseDto();
-        response.setTasks(mapService.convertToListTaskDto(taskService.getTaskList()));
+        ArrayList<TaskDto> list = new ArrayList<>();
+        list.addAll(mapService.convertToListTaskDto(taskService.getTaskList()));
+        list.addAll(mapService.convertToListTaskDtoFromListExtTaskDto(extTaskService.getAllTaskList()));
+        response.setTasks(list);
         return response;
     }
 
@@ -62,7 +74,7 @@ public class TaskController {
     }
 
     @DeleteMapping("/{task_id}")
-    public void deleteTask(@PathVariable("task_id") @NonNull Long taskId) throws MyException {
-        taskService.deleteTask(taskId);
+    public void deleteTask(@PathVariable("task_id") @NonNull String taskId) throws MyException {
+        commonTaskService.deleteTask(taskId);
     }
 }
