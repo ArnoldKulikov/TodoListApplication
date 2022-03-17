@@ -7,6 +7,7 @@ import com.example.services.UserService;
 import com.example.services.task.TaskService;
 import com.example.services.task.TaskServiceProvider;
 import lombok.RequiredArgsConstructor;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -29,6 +30,7 @@ public class TaskServiceImp implements TaskService, TaskServiceProvider {
         return localTask;
     }
 
+    @Async
     @Override
     public List<Task> getOpenTaskList() {
         User user = userService.getCurrentUser();
@@ -39,6 +41,7 @@ public class TaskServiceImp implements TaskService, TaskServiceProvider {
                 .collect(Collectors.toList());
     }
 
+    @Async
     @Override
     public List<Task> getTaskList() {
         User user = userService.getCurrentUser();

@@ -6,6 +6,7 @@ import com.example.models.common.ExtTaskDto;
 import com.example.services.task.ExtTaskService;
 import com.example.services.task.TaskServiceProvider;
 import lombok.RequiredArgsConstructor;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -16,11 +17,13 @@ public class ExtTaskServiceImp implements ExtTaskService, TaskServiceProvider {
 
     private final GetExtTaskListFacade getExtTaskListFacade;
 
+    @Async
     @Override
     public List<ExtTaskDto> getTaskList() {
         return getExtTaskListFacade.getExtTaskList(false);
     }
 
+    @Async
     @Override
     public List<ExtTaskDto> getAllTaskList() {
         return getExtTaskListFacade.getExtTaskList(true);
