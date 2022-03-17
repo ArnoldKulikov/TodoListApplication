@@ -10,6 +10,7 @@ import org.mockito.Mockito;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -46,12 +47,12 @@ class TaskServiceImpTest {
     }
 
     @Test
-    void getTaskList() {
+    void getTaskList() throws ExecutionException, InterruptedException {
 
         User user = createUser();
         Mockito.when(userService.getCurrentUser()).thenReturn(user);
 
-        List<Task> list = taskService.getTaskList();
+        List<Task> list = taskService.getTaskList(user).get().getTasks();
 
         assertEquals(3, list.size());
         Mockito.verify(userService, Mockito.times(1)).getCurrentUser();

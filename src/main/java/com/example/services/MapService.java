@@ -3,6 +3,8 @@ package com.example.services;
 import com.example.entities.Task;
 import com.example.models.common.ExtTaskDto;
 import com.example.models.common.TaskDto;
+import com.example.models.common.TaskList;
+import com.example.models.common.TaskListDto;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Component;
 
@@ -24,10 +26,12 @@ public class MapService {
         return modelMapper.map(taskDto, Task.class);
     }
 
-    public List<TaskDto> convertToListTaskDto(List<Task> task) {
-        return task.stream()
+    public TaskListDto convertToListTaskDto(List<Task> task) {
+        TaskListDto result = new TaskListDto();
+        result.setTasks(task.stream()
                 .map(this::convertToTaskDto)
-                .collect(Collectors.toList());
+                .collect(Collectors.toList()));
+        return result;
     }
 
     public List<Task> convertToListTask(List<TaskDto> taskDto) {
@@ -43,10 +47,12 @@ public class MapService {
         return taskDto;
     }
 
-    public List<TaskDto> convertToListTaskDtoFromListExtTaskDto(List<ExtTaskDto> extTaskDto) {
-        return extTaskDto.stream()
+    public TaskListDto convertToListTaskDtoFromListExtTaskDto(List<ExtTaskDto> extTaskDto) {
+        TaskListDto result = new TaskListDto();
+        result.setTasks(extTaskDto.stream()
                 .map(this::convertToTaskDto)
-                .collect(Collectors.toList());
+                .collect(Collectors.toList()));
+        return result;
     }
 
 }

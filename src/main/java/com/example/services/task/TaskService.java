@@ -1,9 +1,12 @@
 package com.example.services.task;
 
 import com.example.entities.Task;
+import com.example.entities.User;
 import com.example.exeption.MyException;
+import com.example.models.common.TaskList;
 
 import java.util.List;
+import java.util.concurrent.Future;
 
 public interface TaskService {
 
@@ -11,7 +14,7 @@ public interface TaskService {
 
     List<Task> getOpenTaskList();
 
-    List<Task> getTaskList();
+    Future<TaskList> getTaskList(User user);
 
     List<Task> searchTask(String search);
 
