@@ -1,13 +1,14 @@
 package com.example.services.task;
 
-import com.example.models.common.ExtTaskDto;
+import com.example.models.common.TaskDto;
 
 import java.util.List;
+import java.util.concurrent.Future;
 
 public interface ExtTaskService {
 
-    List<ExtTaskDto> getTaskList();
+    Future<List<TaskDto>> getTaskList();
 
-    List<ExtTaskDto> getAllTaskList();
+    Future<List<TaskDto>> getAllTaskList();
 
 }

@@ -3,6 +3,7 @@ package com.example.services;
 import com.example.entities.Task;
 import com.example.entities.User;
 import com.example.exeption.MyException;
+import com.example.models.common.TaskDto;
 import com.example.services.task.TaskService;
 import com.example.services.task.imp.TaskServiceImp;
 import org.junit.jupiter.api.Test;
@@ -10,13 +11,15 @@ import org.mockito.Mockito;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 class TaskServiceImpTest {
 
     UserService userService = Mockito.mock(UserService.class);
-    TaskService taskService = new TaskServiceImp(userService);
+    MapService mapService = Mockito.mock(MapService.class);
+    TaskService taskService = new TaskServiceImp(userService, mapService);
 
     @Test
     void createTask() {
@@ -33,12 +36,12 @@ class TaskServiceImpTest {
     }
 
     @Test
-    void getOpenTaskList() {
+    void getOpenTaskList() throws ExecutionException, InterruptedException {
 
         User user = createUser();
         Mockito.when(userService.getCurrentUser()).thenReturn(user);
 
-        List<Task> list = taskService.getOpenTaskList();
+        List<TaskDto> list = taskService.getOpenTaskList(user).get();
 
         assertEquals(1, list.size());
         Mockito.verify(userService, Mockito.times(1)).getCurrentUser();
@@ -46,12 +49,12 @@ class TaskServiceImpTest {
     }
 
     @Test
-    void getTaskList() {
+    void getTaskList() throws ExecutionException, InterruptedException {
 
         User user = createUser();
         Mockito.when(userService.getCurrentUser()).thenReturn(user);
 
-        List<Task> list = taskService.getTaskList();
+        List<TaskDto> list = taskService.getTaskList(user).get();
 
         assertEquals(3, list.size());
         Mockito.verify(userService, Mockito.times(1)).getCurrentUser();
