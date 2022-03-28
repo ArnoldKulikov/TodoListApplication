@@ -3,7 +3,8 @@ package com.example.services.task.imp;
 import com.example.entities.Task;
 import com.example.entities.User;
 import com.example.exeption.MyException;
-import com.example.models.common.TaskList;
+import com.example.models.common.TaskDto;
+import com.example.services.MapService;
 import com.example.services.UserService;
 import com.example.services.task.TaskService;
 import com.example.services.task.TaskServiceProvider;
@@ -27,6 +28,7 @@ import java.util.stream.Collectors;
 public class TaskServiceImp implements TaskService, TaskServiceProvider {
 
     private final UserService userService;
+    private final MapService mapService;
 
     @Override
     public Task createTask(String description) {
@@ -38,32 +40,32 @@ public class TaskServiceImp implements TaskService, TaskServiceProvider {
 
     @Async
     @Override
-    public List<Task> getOpenTaskList() {
+    public Future<List<TaskDto>> getOpenTaskList(User user) {
 
-        User user = userService.getCurrentUser();
-        List<Task> result;
-        System.out.println("Получение списка задач из БД");
-        result = user.getTasks()
+        System.out.println("Получение списка задач из БД: " + LocalDateTime.now());
+
+        List<TaskDto> result = mapService.convertToListTaskDto(user.getTasks()
                 .stream()
                 .filter(task -> task.getClosed() == false)
                 .sorted(Comparator.comparing(Task::getId))
-                .collect(Collectors.toList());
-        System.out.println("Результат получения задач: " + result.toString());
-        return result;
+                .collect(Collectors.toList()));
+
+        System.out.println("Результат получения задач из БД: " + LocalDateTime.now() + " " + result.toString());
+
+        return AsyncResult.forValue(result);
     }
 
     @Async
     @Override
-    public Future<TaskList> getTaskList(User user) {
-
-        TaskList result = new TaskList();
+    public Future<List<TaskDto>> getTaskList(User user) {
 
         System.out.println("Получение списка задач из БД: " + LocalDateTime.now());
 
-        result.setTasks(user.getTasks()
+        List<TaskDto> result = mapService.convertToListTaskDto(user.getTasks()
                 .stream()
                 .sorted(Comparator.comparing(Task::getId))
                 .collect(Collectors.toList()));
+
         System.out.println("Результат получения задач из БД: " + LocalDateTime.now() + " " + result.toString());
 
         return AsyncResult.forValue(result);

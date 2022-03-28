@@ -7,6 +7,7 @@ import java.util.List;
 
 @Data
 public class TaskListDto {
+
     private List<TaskDto> tasks = new ArrayList<>();
 
 }

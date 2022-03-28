@@ -2,8 +2,8 @@ package com.example.services.task.imp;
 
 import com.example.exeption.MyException;
 import com.example.facade.GetExtTaskListFacade;
-import com.example.models.common.ExtTaskDto;
-import com.example.models.common.ExtTaskListDto;
+import com.example.models.common.TaskDto;
+import com.example.services.MapService;
 import com.example.services.task.ExtTaskService;
 import com.example.services.task.TaskServiceProvider;
 import lombok.RequiredArgsConstructor;
@@ -20,23 +20,23 @@ import java.util.concurrent.Future;
 public class ExtTaskServiceImp implements ExtTaskService, TaskServiceProvider {
 
     private final GetExtTaskListFacade getExtTaskListFacade;
+    private final MapService mapService;
 
     @Async
     @Override
-    public List<ExtTaskDto> getTaskList() {
+    public Future<List<TaskDto>> getTaskList() {
         System.out.println("Получение списка задач из TA: " + LocalDateTime.now());
-        List<ExtTaskDto> result;
-        result = getExtTaskListFacade.getExtTaskList(false);
+        List<TaskDto> result;
+        result = mapService.convertToListTaskDtoFromListExtTaskDto(getExtTaskListFacade.getExtTaskList(false));
         System.out.println("Результат получения задач TA: " + LocalDateTime.now() + " " + result.toString());
-        return result;
+        return AsyncResult.forValue(result);
     }
 
     @Async
     @Override
-    public Future<ExtTaskListDto> getAllTaskList() {
+    public Future<List<TaskDto>> getAllTaskList() {
         System.out.println("Получение списка задач из TA: " + LocalDateTime.now());
-        ExtTaskListDto result = new ExtTaskListDto();
-        result.setTasks(getExtTaskListFacade.getExtTaskList(true));
+        List<TaskDto> result = mapService.convertToListTaskDtoFromListExtTaskDto(getExtTaskListFacade.getExtTaskList(true));
         System.out.println("Результат получения задач из TA: " + LocalDateTime.now() + " " + result.toString());
         return AsyncResult.forValue(result);
     }

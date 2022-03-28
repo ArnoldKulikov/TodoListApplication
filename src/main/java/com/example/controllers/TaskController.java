@@ -3,28 +3,28 @@ package com.example.controllers;
 import com.example.entities.User;
 import com.example.exeption.MyException;
 import com.example.models.common.TaskDto;
-import com.example.models.common.TaskListDto;
 import com.example.models.request.ChangeTaskRequestDto;
 import com.example.models.request.CreateTaskRequestDto;
 import com.example.models.response.TaskListResponseDto;
 import com.example.models.response.TaskResponseDto;
+import com.example.services.MapService;
 import com.example.services.UserService;
 import com.example.services.task.CommonTaskService;
 import com.example.services.task.ExtTaskService;
 import com.example.services.task.TaskService;
-import com.example.services.MapService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.lang.NonNull;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
-import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
+import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.LinkedBlockingQueue;
+import java.util.concurrent.Future;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @RestController
 @RequiredArgsConstructor
@@ -45,49 +45,56 @@ public class TaskController {
     }
 
     @GetMapping
-    public TaskListResponseDto getTaskList() {
+    public TaskListResponseDto getTaskList() throws InterruptedException, ExecutionException {
+
+        User user = userService.getCurrentUser();
         TaskListResponseDto response = new TaskListResponseDto();
-        ArrayList<TaskDto> list = new ArrayList<>();
-//        list.addAll(mapService.convertToListTaskDto(taskService.getOpenTaskList()));
-//        list.addAll(mapService.convertToListTaskDtoFromListExtTaskDto(extTaskService.getTaskList()));
-        response.setTasks(list);
+
+        Future<List<TaskDto>> extTask
+                = CompletableFuture.supplyAsync(extTaskService::getTaskList).get();
+        Future<List<TaskDto>> getTask
+                = CompletableFuture.supplyAsync(() -> taskService.getOpenTaskList(user)).get();
+
+        while (!extTask.isDone() && !getTask.isDone()) {
+            Thread.sleep(50L);
+        }
+
+        List<TaskDto> extTaskList = extTask.get();
+        List<TaskDto> getTaskList = getTask.get();
+
+        List<TaskDto> result = Stream.of(extTaskList, getTaskList)
+                .flatMap(Collection::stream)
+                .collect(Collectors.toList());
+
+        response.setTasks(result);
+
         return response;
     }
 
     @GetMapping("/all")
-    public TaskListResponseDto getTaskListAll() throws InterruptedException {
+    public TaskListResponseDto getTaskListAll() throws InterruptedException, ExecutionException {
+
         User user = userService.getCurrentUser();
         TaskListResponseDto response = new TaskListResponseDto();
-        LinkedBlockingQueue<TaskListDto> list = new LinkedBlockingQueue<>();
-        ExecutorService executor = Executors.newFixedThreadPool(2);
-        Runnable getTaskList = () -> {
-            try {
-                list.put(mapService.convertToListTaskDto(taskService.getTaskList(user).get().getTasks()));
-                } catch (InterruptedException | ExecutionException e) {
-                    e.printStackTrace();
-                }
-            };
-        Runnable getExtTaskList = () -> {
-            try {
-                list.put(mapService.convertToListTaskDtoFromListExtTaskDto(extTaskService.getAllTaskList().get().getTasks()));
-            } catch (InterruptedException | ExecutionException e) {
-                e.printStackTrace();
-            }
-        };
 
-        executor.execute(getTaskList);
-        executor.execute(getExtTaskList);
-        executor.shutdown();
+        Future<List<TaskDto>> extTask
+                = CompletableFuture.supplyAsync(extTaskService::getAllTaskList).get();
+        Future<List<TaskDto>> getTask
+                = CompletableFuture.supplyAsync(() -> taskService.getTaskList(user)).get();
 
-        while (!executor.isTerminated()) {
-            Thread.sleep(60l);
+        while (!extTask.isDone() && !getTask.isDone()) {
+            Thread.sleep(50L);
         }
 
-        List<TaskDto> result = new ArrayList<>();
-        while (!(list.size() == 0)) {
-            result.add(list.take());
-        }
+        List<TaskDto> extTaskList = extTask.get();
+        List<TaskDto> getTaskList = getTask.get();
+
+        List<TaskDto> result = Stream.of(extTaskList, getTaskList)
+                .flatMap(Collection::stream)
+                .collect(Collectors.toList());
+
         response.setTasks(result);
+
         return response;
     }
 
@@ -96,7 +103,7 @@ public class TaskController {
             @RequestParam("search") @NotNull String searchText
     ) {
         TaskListResponseDto response = new TaskListResponseDto();
-//        response.setTasks(mapService.convertToListTaskDto(taskService.searchTask(searchText)));
+        response.setTasks(mapService.convertToListTaskDto(taskService.searchTask(searchText)));
         return response;
     }
 

@@ -49,7 +49,7 @@ class MapServiceTest {
         list.add(new Task().setId(3l).setClosed(false).setDescription("test3"));
 
         TaskListDto listDto = new TaskListDto();
-        listDto.setTasks(mapService.convertToListTaskDto(list).getTasks());
+        listDto.setTasks(mapService.convertToListTaskDto(list));
         TaskDto localTask = listDto.getTasks().get(0);
 
         assertEquals(1l, localTask.getTaskId());

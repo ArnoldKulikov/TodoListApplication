@@ -3,7 +3,7 @@ package com.example.services.task;
 import com.example.entities.Task;
 import com.example.entities.User;
 import com.example.exeption.MyException;
-import com.example.models.common.TaskList;
+import com.example.models.common.TaskDto;
 
 import java.util.List;
 import java.util.concurrent.Future;
@@ -12,9 +12,9 @@ public interface TaskService {
 
     Task createTask(String description);
 
-    List<Task> getOpenTaskList();
+    Future<List<TaskDto>> getOpenTaskList(User user);
 
-    Future<TaskList> getTaskList(User user);
+    Future<List<TaskDto>> getTaskList(User user);
 
     List<Task> searchTask(String search);
 
