@@ -42,7 +42,7 @@ public class TaskServiceImp implements TaskService, TaskServiceProvider {
     @Override
     public Future<List<TaskDto>> getOpenTaskList(User user) {
 
-        System.out.println("Получение списка задач из БД: " + LocalDateTime.now());
+        log.debug("Получение списка задач из БД: " + LocalDateTime.now());
 
         List<TaskDto> result = mapService.convertToListTaskDto(user.getTasks()
                 .stream()
@@ -50,7 +50,7 @@ public class TaskServiceImp implements TaskService, TaskServiceProvider {
                 .sorted(Comparator.comparing(Task::getId))
                 .collect(Collectors.toList()));
 
-        System.out.println("Результат получения задач из БД: " + LocalDateTime.now() + " " + result.toString());
+        log.debug("Результат получения задач из БД: " + LocalDateTime.now() + " " + result.toString());
 
         return AsyncResult.forValue(result);
     }
@@ -59,14 +59,14 @@ public class TaskServiceImp implements TaskService, TaskServiceProvider {
     @Override
     public Future<List<TaskDto>> getTaskList(User user) {
 
-        System.out.println("Получение списка задач из БД: " + LocalDateTime.now());
+        log.debug("Получение списка задач из БД: " + LocalDateTime.now());
 
         List<TaskDto> result = mapService.convertToListTaskDto(user.getTasks()
                 .stream()
                 .sorted(Comparator.comparing(Task::getId))
                 .collect(Collectors.toList()));
 
-        System.out.println("Результат получения задач из БД: " + LocalDateTime.now() + " " + result.toString());
+        log.debug("Результат получения задач из БД: " + LocalDateTime.now() + " " + result.toString());
 
         return AsyncResult.forValue(result);
     }

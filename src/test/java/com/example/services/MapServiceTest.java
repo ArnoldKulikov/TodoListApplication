@@ -2,7 +2,6 @@ package com.example.services;
 
 import com.example.entities.Task;
 import com.example.models.common.TaskDto;
-import com.example.models.common.TaskListDto;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
@@ -48,9 +47,8 @@ class MapServiceTest {
         list.add(new Task().setId(2l).setClosed(false).setDescription("test2"));
         list.add(new Task().setId(3l).setClosed(false).setDescription("test3"));
 
-        TaskListDto listDto = new TaskListDto();
-        listDto.setTasks(mapService.convertToListTaskDto(list));
-        TaskDto localTask = listDto.getTasks().get(0);
+        List<TaskDto> listDto = mapService.convertToListTaskDto(list);
+        TaskDto localTask = listDto.get(0);
 
         assertEquals(1l, localTask.getTaskId());
         assertEquals(false, localTask.getClosed());

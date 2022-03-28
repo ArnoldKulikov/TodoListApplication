@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.concurrent.CompletableFuture;
 
 @Data
-public class ExtTaskListDto extends CompletableFuture<ExtTaskListDto> {
+public class ExtTaskListDto {
 
     private List<ExtTaskDto> tasks;
 

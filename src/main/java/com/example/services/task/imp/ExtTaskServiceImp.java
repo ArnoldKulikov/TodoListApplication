@@ -7,6 +7,7 @@ import com.example.services.MapService;
 import com.example.services.task.ExtTaskService;
 import com.example.services.task.TaskServiceProvider;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.scheduling.annotation.AsyncResult;
 import org.springframework.stereotype.Service;
@@ -15,6 +16,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.concurrent.Future;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class ExtTaskServiceImp implements ExtTaskService, TaskServiceProvider {
@@ -25,19 +27,19 @@ public class ExtTaskServiceImp implements ExtTaskService, TaskServiceProvider {
     @Async
     @Override
     public Future<List<TaskDto>> getTaskList() {
-        System.out.println("Получение списка задач из TA: " + LocalDateTime.now());
+        log.debug("Получение списка задач из TA: " + LocalDateTime.now());
         List<TaskDto> result;
         result = mapService.convertToListTaskDtoFromListExtTaskDto(getExtTaskListFacade.getExtTaskList(false));
-        System.out.println("Результат получения задач TA: " + LocalDateTime.now() + " " + result.toString());
+        log.debug("Результат получения задач TA: " + LocalDateTime.now() + " " + result.toString());
         return AsyncResult.forValue(result);
     }
 
     @Async
     @Override
     public Future<List<TaskDto>> getAllTaskList() {
-        System.out.println("Получение списка задач из TA: " + LocalDateTime.now());
+        log.debug("Получение списка задач из TA: " + LocalDateTime.now());
         List<TaskDto> result = mapService.convertToListTaskDtoFromListExtTaskDto(getExtTaskListFacade.getExtTaskList(true));
-        System.out.println("Результат получения задач из TA: " + LocalDateTime.now() + " " + result.toString());
+        log.debug("Результат получения задач из TA: " + LocalDateTime.now() + " " + result.toString());
         return AsyncResult.forValue(result);
     }
 
