@@ -3,12 +3,9 @@ package com.example.services;
 import com.example.entities.Task;
 import com.example.models.common.ExtTaskDto;
 import com.example.models.common.TaskDto;
-import com.example.models.common.TaskList;
-import com.example.models.common.TaskListDto;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Component;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
